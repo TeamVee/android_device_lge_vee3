@@ -15,7 +15,7 @@
 # along with this program.  If not, see [http://www.gnu.org/licenses/].
 #
 
-BDROID_DIR:= external/bluetooth/bluedroid
+BDROID_DIR:= system/bt
 
 LOCAL_PATH := $(call my-dir)
 
