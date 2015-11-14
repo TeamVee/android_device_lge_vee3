@@ -64,7 +64,7 @@ static hw_module_t camera_common  = {
   version_major: 0,
   version_minor: 01,
   id: CAMERA_HARDWARE_MODULE_ID,
-  name: "Qcamera",
+  name: "HUAWEI msm7x27a Camera HAL",
   author:"Qcom",
   methods: &camera_module_methods,
   dso: NULL,
@@ -74,6 +74,12 @@ camera_module_t HAL_MODULE_INFO_SYM = {
   common: camera_common,
   get_number_of_cameras: get_number_of_cameras,
   get_camera_info: get_camera_info,
+  set_callbacks: NULL,
+  get_vendor_tag_ops: NULL,
+  open_legacy: NULL,
+  set_torch_mode: NULL,
+  init : NULL,
+  reserved: {0}
 };
 
 camera_device_ops_t camera_ops = {
@@ -436,12 +442,18 @@ int set_parameters(struct camera_device * device, const char *parms)
     int rc = -1;
     QCameraHardwareInterface *hardware = util_get_Hal_obj(device);
     if(hardware != NULL && parms){
-        //QCameraParameters param;// = util_get_HAL_parameter(device);
-        //String8 str = String8(parms);
 
-        //param.unflatten(str);
-        rc = hardware->setParameters(parms);
-        //rc = 0;
+        android::CameraParameters params;
+        params.unflatten(android::String8(parms));
+
+        /* Make sure that thumbnail size does not remain unset */
+        params.set(android::CameraParameters::KEY_JPEG_THUMBNAIL_WIDTH, "512");
+        params.set(android::CameraParameters::KEY_JPEG_THUMBNAIL_HEIGHT, "384");
+
+        android::String8 strParams = params.flatten();
+        char *ret = strdup(strParams.string());
+        rc = hardware->setParameters(ret);
+
   }
   return rc;
 }
