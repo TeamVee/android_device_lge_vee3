@@ -432,24 +432,24 @@ on property:ro.boot.emmc=true
 on property:ro.data.large_tcp_window_size=true
     write /proc/sys/net/ipv4/tcp_adv_win_scale 1
 
-on property:sys.boot_completed=1
-    # use new ksm values
-    write /sys/kernel/mm/ksm/sleep_millisecs 1000
-    write /sys/kernel/mm/ksm/pages_to_scan 128
-    write /sys/kernel/mm/ksm/run 1
-    # disable debug of lmk
-    write /sys/module/lowmemorykiller/parameters/debug_level 0
-    # use new lmk value
-    write /sys/module/lowmemorykiller/parameters/minfree 3584,4864,6400,9472,12800,18432
-    # VM tweaks
-    write /proc/sys/vm/dirty_expire_centisecs 1000
-    write /proc/sys/vm/dirty_writeback_centisecs 2000
-    write /proc/sys/vm/block_dump 0
-    write /proc/sys/vm/laptop_mode 0
-    write /proc/sys/vm/min_free_order_shift 4
-    write /proc/sys/vm/overcommit_memory 1
-    write /proc/sys/vm/overcommit_ratio 50
-    write /proc/sys/vm/page-cluster 0
-    write /proc/sys/vm/panic_on_oom 0
-    write /proc/sys/vm/swappiness 70
-    write /proc/sys/vm/extra_free_kbytes 5087
+#on property:sys.boot_completed=1
+#    # use new ksm values
+#    write /sys/kernel/mm/ksm/sleep_millisecs 1000
+#    write /sys/kernel/mm/ksm/pages_to_scan 128
+#    write /sys/kernel/mm/ksm/run 1
+#    # disable debug of lmk
+#    write /sys/module/lowmemorykiller/parameters/debug_level 0
+#    # use new lmk value
+#    write /sys/module/lowmemorykiller/parameters/minfree 3584,4864,6400,9472,12800,18432
+#    # VM tweaks
+#    write /proc/sys/vm/dirty_expire_centisecs 1000
+#    write /proc/sys/vm/dirty_writeback_centisecs 2000
+#    write /proc/sys/vm/block_dump 0
+#    write /proc/sys/vm/laptop_mode 0
+#    write /proc/sys/vm/min_free_order_shift 4
+#    write /proc/sys/vm/overcommit_memory 1
+#    write /proc/sys/vm/overcommit_ratio 50
+#    write /proc/sys/vm/page-cluster 0
+#    write /proc/sys/vm/panic_on_oom 0
+#    write /proc/sys/vm/swappiness 70
+#    write /proc/sys/vm/extra_free_kbytes 5087
