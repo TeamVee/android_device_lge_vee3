@@ -73,7 +73,6 @@ PRODUCT_PACKAGES += libqdMetaData
 PRODUCT_PACKAGES += libstagefrighthw
 PRODUCT_PACKAGES += libmm-omxcore
 PRODUCT_PACKAGES += libOmxCore
-PRODUCT_PACKAGES += libdashplayer
 
 # Off-mode Charging
 PRODUCT_PACKAGES += charger
