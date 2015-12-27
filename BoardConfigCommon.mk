@@ -90,6 +90,9 @@ TARGET_PROVIDES_LIBLIGHT := true
 # Camera
 USE_DEVICE_SPECIFIC_CAMERA := true
 
+# SEPolicy
+include device/qcom/sepolicy/sepolicy.mk
+
 # Bootanimation
 TARGET_BOOTANIMATION_PRELOAD := true
 TARGET_BOOTANIMATION_TEXTURE_CACHE := true
