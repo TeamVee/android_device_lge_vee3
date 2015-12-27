@@ -1,0 +1,38 @@
+From 82e8962277ed64a00f49cffc35181f6032d41ddc Mon Sep 17 00:00:00 2001
+From: Kyle Harrison <khwebmail@gmail.com>
+Date: Thu, 16 Apr 2015 12:35:37 +0100
+Subject: [PATCH] msm7x27a support
+
+Change-Id: I052b47237022f1a73293c5bbe591203be01809c2
+---
+ core/qcom_target.mk | 2 +-
+ core/qcom_utils.mk  | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/core/qcom_target.mk b/core/qcom_target.mk
+index 825ddbb..112ab41 100644
+--- a/core/qcom_target.mk
++++ b/core/qcom_target.mk
+@@ -17,7 +17,7 @@ ifeq ($(BOARD_USES_QCOM_HARDWARE),true)
+     TARGET_ENABLE_QC_AV_ENHANCEMENTS := true
+ 
+     # Enable DirectTrack for legacy targets
+-    ifneq ($(filter msm7x30 msm8660 msm8960,$(TARGET_BOARD_PLATFORM)),)
++    ifneq ($(filter msm7x27a msm7x30 msm8660 msm8960,$(TARGET_BOARD_PLATFORM)),)
+         ifeq ($(BOARD_USES_LEGACY_ALSA_AUDIO),true)
+             qcom_flags += -DQCOM_DIRECTTRACK
+         endif
+diff --git a/core/qcom_utils.mk b/core/qcom_utils.mk
+index d1dd262..050959d 100755
+--- a/core/qcom_utils.mk
++++ b/core/qcom_utils.mk
+@@ -1,5 +1,6 @@
+ # Board platforms lists to be used for
+ # TARGET_BOARD_PLATFORM specific featurization
++QCOM_BOARD_PLATFORMS += msm7x27a
+ QCOM_BOARD_PLATFORMS += msm7x30
+ QCOM_BOARD_PLATFORMS += msm8226
+ QCOM_BOARD_PLATFORMS += msm8610
+-- 
+2.3.5
+
