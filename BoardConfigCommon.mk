@@ -151,29 +151,3 @@ TW_NO_CPU_TEMP := true
 TW_NO_SCREEN_TIMEOUT := true
 TW_BRIGHTNESS_PATH := /sys/class/leds/lcd-backlight/brightness
 TW_MAX_BRIGHTNESS := 225
-
-# Sepolicy
-BOARD_SEPOLICY_DIRS += \
-	device/lge/vee-common/sepolicy
-
-BOARD_SEPOLICY_UNION += \
-	file_contexts \
-	app.te \
-	bluetooth.te \
-	device.te \
-	domain.te \
-	drmserver.te \
-	file.te \
-	hci_init.te \
-	healthd.te \
-	init.te \
-	init_shell.te \
-	keystore.te \
-	kickstart.te \
-	mediaserver.te \
-	netd.te \
-	rild.te \
-	surfaceflinger.te \
-	system.te \
-	ueventd.te \
-	wpa_supplicant.te
