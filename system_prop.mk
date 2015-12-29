@@ -72,3 +72,7 @@ PRODUCT_PROPERTY_OVERRIDES += debug.hwc.fakevsync="true"
 PRODUCT_PROPERTY_OVERRIDES += audio.offload.disable="true"
 # Resampler quality
 PRODUCT_PROPERTY_OVERRIDES += af.resampler.quality="4"
+# ART
+PRODUCT_PROPERTY_OVERRIDES += dalvik.vm.dex2oat-filter="balanced"
+PRODUCT_PROPERTY_OVERRIDES += dalvik.vm.dex2oat-flags="--no-watch-dog"
+PRODUCT_PROPERTY_OVERRIDES += dalvik.vm.image-dex2oat-filter="speed"

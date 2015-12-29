@@ -91,6 +91,23 @@ TARGET_PROVIDES_LIBLIGHT := true
 # Camera
 USE_DEVICE_SPECIFIC_CAMERA := true
 
+# Enable Minikin text layout engine (will be the default soon)
+USE_MINIKIN := true
+
+# Use dlmalloc instead of jemalloc for mallocs on low-ram targets
+MALLOC_IMPL := dlmalloc
+
+# Enable dex-preoptimization to speed up first boot sequence
+ifeq ($(HOST_OS),linux)
+	ifeq ($(TARGET_BUILD_VARIANT),userdebug)
+		ifeq ($(WITH_DEXPREOPT),)
+			WITH_DEXPREOPT := true
+		endif
+	endif
+endif
+WITH_DEXPREOPT_PIC := true
+DONT_DEXPREOPT_PREBUILTS := true
+
 # SEPolicy
 include device/qcom/sepolicy/sepolicy.mk
 
