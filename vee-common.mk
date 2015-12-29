@@ -111,4 +111,11 @@ PRODUCT_PACKAGES += lights.msm7x27a
 # Camera Hal
 #PRODUCT_PACKAGES += camera.msm7x27a
 
+# WiFi
+PRODUCT_PACKAGES += libwpa_client
+PRODUCT_PACKAGES += hostapd
+PRODUCT_PACKAGES += dhcpcd.conf
+PRODUCT_PACKAGES += wpa_supplicant
+PRODUCT_PACKAGES += wpa_supplicant.conf
+
 include device/lge/vee-common/system_prop.mk
