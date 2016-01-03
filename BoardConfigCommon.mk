@@ -101,14 +101,16 @@ MALLOC_IMPL := dlmalloc
 
 # Enable dex-preoptimization to speed up first boot sequence
 ifeq ($(HOST_OS),linux)
-	ifeq ($(TARGET_BUILD_VARIANT),userdebug)
-		ifeq ($(WITH_DEXPREOPT),)
-			WITH_DEXPREOPT := true
-		endif
-	endif
+	WITH_DEXPREOPT := true
 endif
 WITH_DEXPREOPT_PIC := true
 DONT_DEXPREOPT_PREBUILTS := true
+
+# Include an expanded selection of fonts
+EXTENDED_FONT_FOOTPRINT := true
+
+# Block based Over-The-Air
+BLOCK_BASED_OTA := false
 
 # SEPolicy
 include device/qcom/sepolicy/sepolicy.mk
