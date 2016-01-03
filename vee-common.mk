@@ -96,14 +96,14 @@ PRODUCT_PACKAGES += setup_fs
 PRODUCT_PACKAGES += com.android.future.usb.accessory
 
 # Audio
-#PRODUCT_PACKAGES += audio.a2dp.default
-#PRODUCT_PACKAGES += audio.usb.default
-#PRODUCT_PACKAGES += audio.r_submix.default
-#PRODUCT_PACKAGES += audio.primary.msm7x27a
-#PRODUCT_PACKAGES += audio_policy.msm7x27a
-#PRODUCT_PACKAGES += libaudio-resampler
-#PRODUCT_PACKAGES += libaudioparameter
-#PRODUCT_PACKAGES += libaudioutils
+PRODUCT_PACKAGES += audio.a2dp.default
+PRODUCT_PACKAGES += audio.usb.default
+PRODUCT_PACKAGES += audio.r_submix.default
+PRODUCT_PACKAGES += audio.primary.msm7x27a
+PRODUCT_PACKAGES += audio_policy.msm7x27a
+PRODUCT_PACKAGES += libaudio-resampler
+PRODUCT_PACKAGES += libaudioparameter
+PRODUCT_PACKAGES += libaudioutils
 
 # Light HAL
 PRODUCT_PACKAGES += lights.msm7x27a
