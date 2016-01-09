@@ -14,13 +14,15 @@
 # limitations under the License.
 #
 
-# This file includes all definitions that apply to all "Vee" QCom MSM7x27a devices.
+# This file includes all definitions that apply to all L1II/L3II LGE QCom MSM7x27a devices.
 #
 # Everything in this directory will become public
 
+PRODUCT_AAPT_CONFIG := normal ldpi mdpi nodpi
+PRODUCT_AAPT_PREF_CONFIG := ldpi
+
 $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
 
-# The gps config appropriate for this device
 $(call inherit-product, device/common/gps/gps_us_supl.mk)
 
 $(call inherit-product, vendor/lge/vee-common/vee-common-vendor.mk)
