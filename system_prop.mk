@@ -33,10 +33,10 @@ PRODUCT_PROPERTY_OVERRIDES += ro.opengles.version="131072"
 # WiFi
 PRODUCT_PROPERTY_OVERRIDES += wifi.interface="wlan0"
 # Display Composition
-PRODUCT_PROPERTY_OVERRIDES += debug.composition.type="mdp"
-PRODUCT_PROPERTY_OVERRIDES += persist.hwc.mdpcomp.enable="true"
+PRODUCT_PROPERTY_OVERRIDES += debug.composition.type="dyn"
+PRODUCT_PROPERTY_OVERRIDES += persist.hwc.mdpcomp.enable="false"
 # Use Hardware Rendering
-PRODUCT_PROPERTY_OVERRIDES += debug.sf.hw="true"
+PRODUCT_PROPERTY_OVERRIDES += debug.sf.hw="1"
 # Media StageFright
 PRODUCT_PROPERTY_OVERRIDES += media.stagefright.enable-player="true"
 PRODUCT_PROPERTY_OVERRIDES += media.stagefright.enable-meta="false"
@@ -65,15 +65,15 @@ PRODUCT_PROPERTY_OVERRIDES += persist.rild.nitz_short_ons_2=""
 PRODUCT_PROPERTY_OVERRIDES += persist.rild.nitz_short_ons_3=""
 # Data
 PRODUCT_PROPERTY_OVERRIDES += ro.use_data_netmgrd="true"
-PRODUCT_PROPERTY_OVERRIDES += persist.data.ds_fmc_app.mode="false"
+PRODUCT_PROPERTY_OVERRIDES += persist.data.ds_fmc_app.mode="0"
 # SIM
-PRODUCT_PROPERTY_OVERRIDES += persist.service.factory.enable="false"
-PRODUCT_PROPERTY_OVERRIDES += persist.radio.apm_sim_not_pwdn="true"
+PRODUCT_PROPERTY_OVERRIDES += persist.service.factory.enable="0"
+PRODUCT_PROPERTY_OVERRIDES += persist.radio.apm_sim_not_pwdn="1"
 # Debug
-PRODUCT_PROPERTY_OVERRIDES += debug.gralloc.map_fb_memory="true"
-PRODUCT_PROPERTY_OVERRIDES += debug.hwc.fakevsync="true"
+PRODUCT_PROPERTY_OVERRIDES += debug.gralloc.map_fb_memory="1"
+PRODUCT_PROPERTY_OVERRIDES += debug.hwc.fakevsync="1"
 # Audio
-PRODUCT_PROPERTY_OVERRIDES += audio.offload.disable="true"
+PRODUCT_PROPERTY_OVERRIDES += audio.offload.disable="1"
 # Resampler quality
 PRODUCT_PROPERTY_OVERRIDES += af.resampler.quality="4"
 # ART
