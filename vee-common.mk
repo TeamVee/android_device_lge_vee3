@@ -25,6 +25,8 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
 
 $(call inherit-product, device/common/gps/gps_us_supl.mk)
 
+$(call inherit-product, vendor/lge/msm7x27a-common/msm7x27a-common-vendor.mk)
+
 $(call inherit-product, vendor/lge/vee-common/vee-common-vendor.mk)
 
 DEVICE_PACKAGE_OVERLAYS += device/lge/vee-common/overlay
@@ -64,10 +66,8 @@ PRODUCT_COPY_FILES += frameworks/native/data/etc/handheld_core_hardware.xml:syst
 # Display HALS
 PRODUCT_PACKAGES += copybit.msm7x27a
 PRODUCT_PACKAGES += gralloc.msm7x27a
+PRODUCT_PACKAGES += hwcomposer.msm7x27a
 PRODUCT_PACKAGES += memtrack.msm7x27a
-PRODUCT_PACKAGES += liboverlay
-PRODUCT_PACKAGES += libtilerenderer
-PRODUCT_PACKAGES += libgenlock
 PRODUCT_PACKAGES += libqdMetaData
 
 # Video

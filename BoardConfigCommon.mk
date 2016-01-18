@@ -14,6 +14,7 @@
 # limitations under the License.
 
 # inherit from the common proprietary version
+-include vendor/lge/msm7x27a-common/BoardConfigVendor.mk
 -include vendor/lge/vee-common/BoardConfigVendor.mk
 
 BOARD_VENDOR := lge
