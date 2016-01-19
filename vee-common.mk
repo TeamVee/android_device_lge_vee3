@@ -35,7 +35,7 @@ $(call inherit-product, frameworks/native/build/phone-hdpi-512-dalvik-heap.mk)
 
 # Fix Audio Compilation
 PRODUCT_COPY_FILES += vendor/lge/vee-common/proprietary/lib/libaudioalsa.so:obj/lib/libaudioalsa.so
-PRODUCT_COPY_FILES += vendor/lge/vee-common/proprietary/lib/libaudcal.so:obj/lib/libaudcal.so
+PRODUCT_COPY_FILES += vendor/lge/msm7x27a-common/proprietary/lib/libaudcal.so:obj/lib/libaudcal.so
 
 # Rootdir files
 PRODUCT_COPY_FILES += $(call find-copy-subdir-files,*,device/lge/vee-common/rootdir,root)
