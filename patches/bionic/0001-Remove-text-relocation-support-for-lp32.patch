@@ -1,0 +1,196 @@
+From 7679d103a93709edfa709158e9be6b381d1f1f85 Mon Sep 17 00:00:00 2001
+From: Caio Oliveira <caiooliveirafarias0@gmail.com>
+Date: Tue, 19 Jan 2016 15:39:58 -0200
+Subject: [PATCH] Remove text-relocation support for lp32
+
+Bug: 20013628
+Change-Id: Idaf8012f00ee1304d429c3b42f9ebc6b648c55b8
+
+This works good, but soon will be dropped
+
+Signed-off-by: Caio Oliveira <caiooliveirafarias0@gmail.com>
+---
+ linker/linker.cpp      | 38 ++-----------------------------
+ linker/linker.h        |  4 ++--
+ linker/linker_phdr.cpp | 62 --------------------------------------------------
+ linker/linker_phdr.h   |  4 ----
+ 4 files changed, 4 insertions(+), 104 deletions(-)
+
+diff --git a/linker/linker.cpp b/linker/linker.cpp
+index 54867dc..49d3e13 100644
+--- a/linker/linker.cpp
++++ b/linker/linker.cpp
+@@ -2063,13 +2063,8 @@ bool soinfo::PrelinkImage() {
+         break;
+ 
+       case DT_TEXTREL:
+-#if defined(__LP64__)
+-        DL_ERR("text relocations (DT_TEXTREL) found in 64-bit ELF file \"%s\"", name);
++        DEBUG("text relocations (DT_TEXTREL) found in ELF file \"%s\"", name);
+         return false;
+-#else
+-        has_text_relocations = true;
+-        break;
+-#endif
+ 
+       case DT_SYMBOLIC:
+         has_DT_SYMBOLIC = true;
+@@ -2081,12 +2076,8 @@ bool soinfo::PrelinkImage() {
+ 
+       case DT_FLAGS:
+         if (d->d_un.d_val & DF_TEXTREL) {
+-#if defined(__LP64__)
+-          DL_ERR("text relocations (DF_TEXTREL) found in 64-bit ELF file \"%s\"", name);
++          DEBUG("text relocations (DF_TEXTREL) found in ELF file \"%s\"", name);
+           return false;
+-#else
+-          has_text_relocations = true;
+-#endif
+         }
+         if (d->d_un.d_val & DF_SYMBOLIC) {
+           has_DT_SYMBOLIC = true;
+@@ -2174,20 +2165,6 @@ bool soinfo::PrelinkImage() {
+ 
+ bool soinfo::LinkImage(const android_dlextinfo* extinfo) {
+ 
+-#if !defined(__LP64__)
+-  if (has_text_relocations) {
+-    // Make segments writable to allow text relocations to work properly. We will later call
+-    // phdr_table_protect_segments() after all of them are applied and all constructors are run.
+-    DL_WARN("%s has text relocations. This is wasting memory and prevents "
+-            "security hardening. Please fix.", name);
+-    if (phdr_table_unprotect_segments(phdr, phnum, load_bias) < 0) {
+-      DL_ERR("can't unprotect loadable segments for \"%s\": %s",
+-             name, strerror(errno));
+-      return false;
+-    }
+-  }
+-#endif
+-
+ #if defined(USE_RELA)
+   if (rela != nullptr) {
+     DEBUG("[ relocating %s ]", name);
+@@ -2224,17 +2201,6 @@ bool soinfo::LinkImage(const android_dlextinfo* extinfo) {
+ 
+   DEBUG("[ finished linking %s ]", name);
+ 
+-#if !defined(__LP64__)
+-  if (has_text_relocations) {
+-    // All relocations are done, we can protect our segments back to read-only.
+-    if (phdr_table_protect_segments(phdr, phnum, load_bias) < 0) {
+-      DL_ERR("can't protect segments for \"%s\": %s",
+-             name, strerror(errno));
+-      return false;
+-    }
+-  }
+-#endif
+-
+   /* We can also turn on GNU RELRO protection */
+   if (phdr_table_protect_gnu_relro(phdr, phnum, load_bias) < 0) {
+     DL_ERR("can't enable GNU RELRO protection for \"%s\": %s",
+diff --git a/linker/linker.h b/linker/linker.h
+index fa38c7f..b1f4f19 100644
+--- a/linker/linker.h
++++ b/linker/linker.h
+@@ -196,8 +196,8 @@ struct soinfo {
+   // value to get the corresponding address in the process' address space.
+   ElfW(Addr) load_bias;
+ 
+-#if !defined(__LP64__)
+-  bool has_text_relocations;
++#if defined(__arm__)
++  bool unused4; // DO NOT USE, maintained for compatibility
+ #endif
+   bool has_DT_SYMBOLIC;
+ 
+diff --git a/linker/linker_phdr.cpp b/linker/linker_phdr.cpp
+index 4b1c0ca..1c97113 100644
+--- a/linker/linker_phdr.cpp
++++ b/linker/linker_phdr.cpp
+@@ -397,68 +397,6 @@ bool ElfReader::LoadSegments() {
+   return true;
+ }
+ 
+-/* Used internally. Used to set the protection bits of all loaded segments
+- * with optional extra flags (i.e. really PROT_WRITE). Used by
+- * phdr_table_protect_segments and phdr_table_unprotect_segments.
+- */
+-static int _phdr_table_set_load_prot(const ElfW(Phdr)* phdr_table, size_t phdr_count,
+-                                     ElfW(Addr) load_bias, int extra_prot_flags) {
+-  const ElfW(Phdr)* phdr = phdr_table;
+-  const ElfW(Phdr)* phdr_limit = phdr + phdr_count;
+-
+-  for (; phdr < phdr_limit; phdr++) {
+-    if (phdr->p_type != PT_LOAD || (phdr->p_flags & PF_W) != 0) {
+-      continue;
+-    }
+-
+-    ElfW(Addr) seg_page_start = PAGE_START(phdr->p_vaddr) + load_bias;
+-    ElfW(Addr) seg_page_end   = PAGE_END(phdr->p_vaddr + phdr->p_memsz) + load_bias;
+-
+-    int ret = mprotect(reinterpret_cast<void*>(seg_page_start),
+-                       seg_page_end - seg_page_start,
+-                       PFLAGS_TO_PROT(phdr->p_flags) | extra_prot_flags);
+-    if (ret < 0) {
+-      return -1;
+-    }
+-  }
+-  return 0;
+-}
+-
+-/* Restore the original protection modes for all loadable segments.
+- * You should only call this after phdr_table_unprotect_segments and
+- * applying all relocations.
+- *
+- * Input:
+- *   phdr_table  -> program header table
+- *   phdr_count  -> number of entries in tables
+- *   load_bias   -> load bias
+- * Return:
+- *   0 on error, -1 on failure (error code in errno).
+- */
+-int phdr_table_protect_segments(const ElfW(Phdr)* phdr_table, size_t phdr_count, ElfW(Addr) load_bias) {
+-  return _phdr_table_set_load_prot(phdr_table, phdr_count, load_bias, 0);
+-}
+-
+-/* Change the protection of all loaded segments in memory to writable.
+- * This is useful before performing relocations. Once completed, you
+- * will have to call phdr_table_protect_segments to restore the original
+- * protection flags on all segments.
+- *
+- * Note that some writable segments can also have their content turned
+- * to read-only by calling phdr_table_protect_gnu_relro. This is no
+- * performed here.
+- *
+- * Input:
+- *   phdr_table  -> program header table
+- *   phdr_count  -> number of entries in tables
+- *   load_bias   -> load bias
+- * Return:
+- *   0 on error, -1 on failure (error code in errno).
+- */
+-int phdr_table_unprotect_segments(const ElfW(Phdr)* phdr_table, size_t phdr_count, ElfW(Addr) load_bias) {
+-  return _phdr_table_set_load_prot(phdr_table, phdr_count, load_bias, PROT_WRITE);
+-}
+-
+ /* Used internally by phdr_table_protect_gnu_relro and
+  * phdr_table_unprotect_gnu_relro.
+  */
+diff --git a/linker/linker_phdr.h b/linker/linker_phdr.h
+index 65d302c..7a8d1dc 100644
+--- a/linker/linker_phdr.h
++++ b/linker/linker_phdr.h
+@@ -84,10 +84,6 @@ class ElfReader {
+ size_t phdr_table_get_load_size(const ElfW(Phdr)* phdr_table, size_t phdr_count,
+                                 ElfW(Addr)* min_vaddr = nullptr, ElfW(Addr)* max_vaddr = nullptr);
+ 
+-int phdr_table_protect_segments(const ElfW(Phdr)* phdr_table, size_t phdr_count, ElfW(Addr) load_bias);
+-
+-int phdr_table_unprotect_segments(const ElfW(Phdr)* phdr_table, size_t phdr_count, ElfW(Addr) load_bias);
+-
+ int phdr_table_protect_gnu_relro(const ElfW(Phdr)* phdr_table, size_t phdr_count, ElfW(Addr) load_bias);
+ 
+ int phdr_table_serialize_gnu_relro(const ElfW(Phdr)* phdr_table, size_t phdr_count, ElfW(Addr) load_bias,
+-- 
+2.1.4
+
