@@ -40,6 +40,11 @@ PRODUCT_COPY_FILES += $(call find-copy-subdir-files,*,device/lge/vee-common/root
 # Config Files
 PRODUCT_COPY_FILES += $(call find-copy-subdir-files,*,device/lge/vee-common/configs,system)
 
+# Special Google Media Codecs
+PRODUCT_COPY_FILES += frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:system/etc/media_codecs_google_audio.xml
+PRODUCT_COPY_FILES += frameworks/av/media/libstagefright/data/media_codecs_google_telephony.xml:system/etc/media_codecs_google_telephony.xml
+PRODUCT_COPY_FILES += frameworks/av/media/libstagefright/data/media_codecs_google_video_le.xml:system/etc/media_codecs_google_video_le.xml
+
 # Permission files
 PRODUCT_COPY_FILES += frameworks/native/data/etc/android.hardware.bluetooth.xml:system/etc/permissions/android.hardware.bluetooth.xml
 PRODUCT_COPY_FILES += frameworks/native/data/etc/android.hardware.camera.xml:system/etc/permissions/android.hardware.camera.xml
@@ -63,7 +68,7 @@ PRODUCT_COPY_FILES += frameworks/native/data/etc/handheld_core_hardware.xml:syst
 # Display HALS
 PRODUCT_PACKAGES += copybit.msm7x27a
 PRODUCT_PACKAGES += gralloc.msm7x27a
-PRODUCT_PACKAGES += hwcomposer.msm7x27a
+#PRODUCT_PACKAGES += hwcomposer.msm7x27a
 PRODUCT_PACKAGES += memtrack.msm7x27a
 PRODUCT_PACKAGES += libqdMetaData
 
