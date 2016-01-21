@@ -16,4 +16,4 @@
 # the Home key is in an ideal place to use for waking up. lets have it as such
 #
 
-key 172   HOME             WAKE
+key 172   HOME
