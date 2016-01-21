@@ -42,9 +42,9 @@ esac
 deviceset=`getprop gsm.version.baseband | grep -o -e "E410" -e "E411" -e "E415" -e "E420" -e "E425" -e "E430" -e "E431" -e "E435" | head -1`
 
 # Set Variant
-setprop ro.product.model="$deviceset"
-setprop ro.product.device="$deviceset"
-setprop ro.product.manufacturer="LGE"
+setprop ro.product.model "$deviceset"
+setprop ro.product.device "$deviceset"
+setprop ro.product.manufacturer "LGE"
 
 # Set essential configs
 echo `getprop ro.serialno` > /sys/class/android_usb/android0/iSerial
