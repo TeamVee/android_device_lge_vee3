@@ -112,7 +112,7 @@ PRODUCT_PACKAGES += libaudioutils
 PRODUCT_PACKAGES += lights.msm7x27a
 
 # Camera Hal
-#PRODUCT_PACKAGES += camera.msm7x27a
+PRODUCT_PACKAGES += camera.msm7x27a
 
 # WiFi
 PRODUCT_PACKAGES += libwpa_client
