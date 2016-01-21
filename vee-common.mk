@@ -68,7 +68,6 @@ PRODUCT_COPY_FILES += frameworks/native/data/etc/handheld_core_hardware.xml:syst
 # Display HALS
 PRODUCT_PACKAGES += copybit.msm7x27a
 PRODUCT_PACKAGES += gralloc.msm7x27a
-PRODUCT_PACKAGES += hwcomposer.msm7x27a
 PRODUCT_PACKAGES += memtrack.msm7x27a
 PRODUCT_PACKAGES += libqdMetaData
 
