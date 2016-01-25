@@ -1,1 +1,9 @@
 allow kernel block_device:blk_file rw_file_perms;
+
+allow kernel led_deamon_data_file:dir relabelto;
+allow kernel led_deamon_data_file:file relabelto;
+allow kernel led_deamon_data_file:lnk_file relabelto;
+
+allow kernel sensors_data_file:dir relabelto;
+allow kernel sensors_data_file:file relabelto;
+allow kernel sensors_data_file:lnk_file relabelto;

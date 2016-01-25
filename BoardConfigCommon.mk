@@ -145,7 +145,7 @@ BOARD_SEPOLICY_UNION += \
        sensors.te \
        system_app.te \
        system_server.te \
-       mpdecision.te \
+       ueventd.te \
        vold.te
 
 # Bootanimation
