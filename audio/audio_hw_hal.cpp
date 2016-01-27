@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-#define LOG_TAG "qcom_audio_hw_hal"
+#define LOG_TAG "audio.primary.msm7x27a"
 //#define LOG_NDEBUG 0
 
 #include <stdint.h>
@@ -53,94 +53,6 @@ struct qcom_stream_in {
 
     AudioStreamIn *qcom_in;
 };
-
-
-enum {
-    HAL_API_REV_1_0,
-    HAL_API_REV_2_0,
-    HAL_API_REV_NUM
-} hal_api_rev;
-
-static uint32_t audio_device_conv_table[][HAL_API_REV_NUM] =
-{
-        /* output devices */
-    { AudioSystem::DEVICE_OUT_EARPIECE, AUDIO_DEVICE_OUT_EARPIECE },
-    { AudioSystem::DEVICE_OUT_SPEAKER, AUDIO_DEVICE_OUT_SPEAKER },
-    { AudioSystem::DEVICE_OUT_WIRED_HEADSET, AUDIO_DEVICE_OUT_WIRED_HEADSET },
-    { AudioSystem::DEVICE_OUT_WIRED_HEADPHONE, AUDIO_DEVICE_OUT_WIRED_HEADPHONE },
-    { AudioSystem::DEVICE_OUT_BLUETOOTH_SCO, AUDIO_DEVICE_OUT_BLUETOOTH_SCO },
-    { AudioSystem::DEVICE_OUT_BLUETOOTH_SCO_HEADSET, AUDIO_DEVICE_OUT_BLUETOOTH_SCO_HEADSET },
-    { AudioSystem::DEVICE_OUT_BLUETOOTH_SCO_CARKIT, AUDIO_DEVICE_OUT_BLUETOOTH_SCO_CARKIT },
-    { AudioSystem::DEVICE_OUT_BLUETOOTH_A2DP, AUDIO_DEVICE_OUT_BLUETOOTH_A2DP },
-    { AudioSystem::DEVICE_OUT_BLUETOOTH_A2DP_HEADPHONES, AUDIO_DEVICE_OUT_BLUETOOTH_A2DP_HEADPHONES },
-    { AudioSystem::DEVICE_OUT_BLUETOOTH_A2DP_SPEAKER, AUDIO_DEVICE_OUT_BLUETOOTH_A2DP_SPEAKER },
-    { AudioSystem::DEVICE_OUT_AUX_DIGITAL, AUDIO_DEVICE_OUT_AUX_DIGITAL },
-#ifdef QCOM_USBAUDIO_ENABLED
-    { AudioSystem::DEVICE_OUT_ANLG_DOCK_HEADSET, AUDIO_DEVICE_OUT_ANLG_DOCK_HEADSET },
-    { AudioSystem::DEVICE_OUT_DGTL_DOCK_HEADSET, AUDIO_DEVICE_OUT_DGTL_DOCK_HEADSET },
-    { AudioSystem::DEVICE_OUT_USB_ACCESSORY, AUDIO_DEVICE_OUT_USB_ACCESSORY },
-    { AudioSystem::DEVICE_OUT_USB_DEVICE, AUDIO_DEVICE_OUT_USB_DEVICE },
-#endif
-#ifdef QCOM_PROXY_DEVICE_ENABLED
-    { AudioSystem::DEVICE_OUT_PROXY, AUDIO_DEVICE_OUT_PROXY },
-#endif
-#ifdef QCOM_FM_ENABLED
-    { AudioSystem::DEVICE_OUT_FM, AUDIO_DEVICE_OUT_FM },
-    { AudioSystem::DEVICE_OUT_FM_TX, AUDIO_DEVICE_OUT_FM_TX },
-#endif
-    { AudioSystem::DEVICE_OUT_DEFAULT, AUDIO_DEVICE_OUT_DEFAULT },
-    /* input devices */
-    { AudioSystem::DEVICE_IN_COMMUNICATION, AUDIO_DEVICE_IN_COMMUNICATION },
-    { AudioSystem::DEVICE_IN_AMBIENT, AUDIO_DEVICE_IN_AMBIENT },
-    { AudioSystem::DEVICE_IN_BUILTIN_MIC, AUDIO_DEVICE_IN_BUILTIN_MIC },
-    { AudioSystem::DEVICE_IN_BLUETOOTH_SCO_HEADSET, AUDIO_DEVICE_IN_BLUETOOTH_SCO_HEADSET },
-    { AudioSystem::DEVICE_IN_WIRED_HEADSET, AUDIO_DEVICE_IN_WIRED_HEADSET },
-    { AudioSystem::DEVICE_IN_AUX_DIGITAL, AUDIO_DEVICE_IN_AUX_DIGITAL },
-    { AudioSystem::DEVICE_IN_VOICE_CALL, AUDIO_DEVICE_IN_VOICE_CALL },
-    { AudioSystem::DEVICE_IN_BACK_MIC, AUDIO_DEVICE_IN_BACK_MIC },
-#ifdef QCOM_USBAUDIO_ENABLED
-    { AudioSystem::DEVICE_IN_ANLG_DOCK_HEADSET, AUDIO_DEVICE_IN_ANLG_DOCK_HEADSET },
-#endif
-#ifdef QCOM_PROXY_DEVICE_ENABLED
-    { AudioSystem::DEVICE_IN_PROXY, AUDIO_DEVICE_IN_PROXY },
-#endif
-#ifdef QCOM_FM_ENABLED
-    { AudioSystem::DEVICE_IN_FM_RX, AUDIO_DEVICE_IN_FM_RX },
-    { AudioSystem::DEVICE_IN_FM_RX_A2DP, AUDIO_DEVICE_IN_FM_RX_A2DP },
-#endif
-    { AudioSystem::DEVICE_IN_DEFAULT, AUDIO_DEVICE_IN_DEFAULT },
-};
-
-// the "audio_devices" enumeration defined in hardware/libhardware_legacy is obsolete,
-// use type "audio_devices_t" and audio device enumeration from system/audio.h instead.
-// Do not use convert_audio_device if audio hal uses device definition from system/core
-// There's no need to conver audio device if HAL uses AUDIO_DEVICE_XXX defintions instead
-// of AudioSystem::Device_XXX.
-static uint32_t convert_audio_device(uint32_t from_device, int from_rev, int to_rev)
-{
-    const uint32_t k_num_devices = sizeof(audio_device_conv_table)/sizeof(uint32_t)/HAL_API_REV_NUM;
-    uint32_t to_device =  AUDIO_DEVICE_NONE;
-    uint32_t in_bit = 0;
-
-    if (from_rev != HAL_API_REV_1_0) {
-        in_bit = from_device & AUDIO_DEVICE_BIT_IN;
-        from_device &= ~AUDIO_DEVICE_BIT_IN;
-    }
-
-    while (from_device) {
-        uint32_t i = 31 - __builtin_clz(from_device);
-        uint32_t cur_device = (1 << i) | in_bit;
-
-        for (i = 0; i < k_num_devices; i++) {
-            if (audio_device_conv_table[i][from_rev] == cur_device) {
-                to_device |= audio_device_conv_table[i][to_rev];
-                break;
-            }
-        }
-        from_device &= ~cur_device;
-    }
-    return to_device;
-}
 
 /** audio_stream_out implementation **/
 static uint32_t out_get_sample_rate(const struct audio_stream *stream)
@@ -214,7 +126,6 @@ static int out_set_parameters(struct audio_stream *stream, const char *kvpairs)
     AudioParameter parms = AudioParameter(String8(kvpairs));
 
     if (parms.getInt(String8(AUDIO_PARAMETER_STREAM_ROUTING), val) == NO_ERROR) {
-        val = convert_audio_device(val, HAL_API_REV_2_0, HAL_API_REV_1_0);
         parms.remove(String8(AUDIO_PARAMETER_STREAM_ROUTING));
         parms.addInt(String8(AUDIO_PARAMETER_STREAM_ROUTING), val);
         s8 = parms.toString();
@@ -234,7 +145,6 @@ static char * out_get_parameters(const struct audio_stream *stream, const char *
 
     AudioParameter parms = AudioParameter(s8);
     if (parms.getInt(String8(AUDIO_PARAMETER_STREAM_ROUTING), val) == NO_ERROR) {
-        val = convert_audio_device(val, HAL_API_REV_1_0, HAL_API_REV_2_0);
         parms.remove(String8(AUDIO_PARAMETER_STREAM_ROUTING));
         parms.addInt(String8(AUDIO_PARAMETER_STREAM_ROUTING), val);
         s8 = parms.toString();
@@ -416,7 +326,6 @@ static int in_set_parameters(struct audio_stream *stream, const char *kvpairs)
     String8 s8 = String8(kvpairs);
 
     if (parms.getInt(String8(AUDIO_PARAMETER_STREAM_ROUTING), val) == NO_ERROR) {
-        val = convert_audio_device(val, HAL_API_REV_2_0, HAL_API_REV_1_0);
         parms.remove(String8(AUDIO_PARAMETER_STREAM_ROUTING));
         parms.addInt(String8(AUDIO_PARAMETER_STREAM_ROUTING), val);
         s8 = parms.toString();
@@ -437,7 +346,6 @@ static char * in_get_parameters(const struct audio_stream *stream,
 
     AudioParameter parms = AudioParameter(s8);
     if (parms.getInt(String8(AUDIO_PARAMETER_STREAM_ROUTING), val) == NO_ERROR) {
-        val = convert_audio_device(val, HAL_API_REV_1_0, HAL_API_REV_2_0);
         parms.remove(String8(AUDIO_PARAMETER_STREAM_ROUTING));
         parms.addInt(String8(AUDIO_PARAMETER_STREAM_ROUTING), val);
         s8 = parms.toString();
@@ -517,6 +425,10 @@ static uint32_t adev_get_supported_devices(const struct audio_hw_device *dev)
             AUDIO_DEVICE_OUT_USB_ACCESSORY |
             AUDIO_DEVICE_OUT_USB_DEVICE |
             AUDIO_DEVICE_OUT_REMOTE_SUBMIX |
+#ifdef QCOM_ANC_HEADSET_ENABLED
+            AUDIO_DEVICE_OUT_ANC_HEADSET |
+            AUDIO_DEVICE_OUT_ANC_HEADPHONE |
+#endif
 #ifdef QCOM_PROXY_DEVICE_ENABLED
             AUDIO_DEVICE_OUT_PROXY |
 #endif
@@ -539,6 +451,9 @@ static uint32_t adev_get_supported_devices(const struct audio_hw_device *dev)
             AUDIO_DEVICE_IN_DGTL_DOCK_HEADSET |
             AUDIO_DEVICE_IN_USB_ACCESSORY |
             AUDIO_DEVICE_IN_USB_DEVICE |
+#ifdef QCOM_ANC_HEADSET_ENABLED
+            AUDIO_DEVICE_IN_ANC_HEADSET |
+#endif
 #ifdef QCOM_PROXY_DEVICE_ENABLED
             AUDIO_DEVICE_IN_PROXY |
 #endif
@@ -633,7 +548,6 @@ static int adev_open_output_stream(struct audio_hw_device *dev,
     if (!out)
         return -ENOMEM;
 
-    devices = convert_audio_device(devices, HAL_API_REV_2_0, HAL_API_REV_1_0);
     status = static_cast<audio_output_flags_t> (flags);
 
     out->qcom_out = qadev->hwif->openOutputStream(devices,
@@ -706,8 +620,6 @@ static int adev_open_input_stream(struct audio_hw_device *dev,
     in = (struct qcom_stream_in *)calloc(1, sizeof(*in));
     if (!in)
         return -ENOMEM;
-
-    devices = convert_audio_device(devices, HAL_API_REV_2_0, HAL_API_REV_1_0);
 
     in->qcom_in = qadev->hwif->openInputStream(devices, (int *)&config->format,
                                     &config->channel_mask,

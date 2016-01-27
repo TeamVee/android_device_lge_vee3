@@ -6,6 +6,10 @@
 LOCAL_PATH := $(call my-dir)
 
 common_cflags := -D_POSIX_SOURCE
+ifneq ($(strip $(QCOM_ANC_HEADSET_ENABLED)),false)
+    common_cflags += -DQCOM_ANC_HEADSET_ENABLED
+endif
+
 ifeq ($(strip $(QCOM_FM_ENABLED)),true)
     common_cflags += -DQCOM_FM_ENABLED
 endif
@@ -38,13 +42,8 @@ LOCAL_SRC_FILES := \
     audio_hw_hal.cpp \
     HardwarePinSwitching.c
 
-ifeq ($(strip $(TARGET_HAS_QACT)),true)
-LOCAL_SRC_FILES += \
-    AudioHardware_cad.cpp
-else
 LOCAL_SRC_FILES += \
     AudioHardware.cpp
-endif
 
 LOCAL_SHARED_LIBRARIES := \
     libcutils       \
