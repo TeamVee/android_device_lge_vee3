@@ -206,6 +206,7 @@ public:
     virtual status_t    setMasterVolume(float volume);
 
     virtual status_t    setMode(int mode);
+    virtual status_t    setMasterMute(bool muted);
 
     // mic mute
     virtual status_t    setMicMute(bool state);
@@ -244,6 +245,18 @@ public:
 
     virtual    size_t      getInputBufferSize(uint32_t sampleRate, int format, int channelCount);
                void        clearCurDevice() { mCurSndDevice = -1; }
+    virtual int createAudioPatch(unsigned int num_sources,
+                                const struct audio_port_config *sources,
+                                unsigned int num_sinks,
+                                const struct audio_port_config *sinks,
+                                audio_patch_handle_t *handle);
+
+    virtual int releaseAudioPatch(audio_patch_handle_t handle);
+
+    virtual int getAudioPort(struct audio_port *port);
+
+    virtual int setAudioPortConfig(const struct audio_port_config *config);
+
 #ifdef QCOM_FM_ENABLED
                 int IsFmon() const { return (mFmFd != -1); }
                 int IsFmA2dpOn() const { return FmA2dpStatus; }
