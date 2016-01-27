@@ -2116,13 +2116,13 @@ status_t AudioHardware::AudioStreamOutMSM72xx::setParameters(const String8& keyV
 
 #ifdef QCOM_FM_ENABLED
     float fm_volume;
-    key = String8(AudioParameter::keyFmVolume);
+    key = String8(AUDIO_PARAMETER_KEY_FM_VOLUME);
     if (param.getFloat(key, fm_volume) == NO_ERROR) {
         mHardware->setFmVolume(fm_volume);
         param.remove(key);
     }
 
-    key = String8(AudioParameter::keyHandleFm);
+    key = String8(AUDIO_PARAMETER_KEY_HANDLE_FM);
     if (param.getInt(key, device) == NO_ERROR) {
         if (device & AUDIO_DEVICE_OUT_FM) {
             mDevices |= device;
