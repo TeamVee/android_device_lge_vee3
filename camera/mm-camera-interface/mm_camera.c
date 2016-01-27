@@ -673,6 +673,10 @@ int32_t mm_camera_get_parm(mm_camera_obj_t * my_obj,
         my_obj->channel_interface_mask = *((uint32_t *)(parm->p_value));
         break;
 
+    case MM_CAMERA_PARM_LUX_IDX:
+        CDBG("%s: MM_CAMERA_PARM_LUX_IDX\n", __func__);
+        return mm_camera_send_native_ctrl_cmd(my_obj, CAMERA_GET_PARM_LUX_IDX,
+                     sizeof(int), (void *)parm->p_value);
     case MM_CAMERA_PARM_MAX_NUM_FACES_DECT:
         return mm_camera_send_native_ctrl_cmd(my_obj, CAMERA_GET_MAX_NUM_FACES_DECT,
                      sizeof(int), (void *)parm->p_value);

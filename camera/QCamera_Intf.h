@@ -111,15 +111,11 @@
 // Events specific to encoder
 #define JPEG_EVENT_THUMBNAIL_DROPPED 4
 
-#define TRUE (1==1)
-#define FALSE (!TRUE)
-#ifndef MIN
-#define MIN(x,y) (((x)<(y)) ? (x) : (y))
-#endif
-#define MAX(x,y) (((x)>(y)) ? (x) : (y))
+#define TRUE (1)
+#define FALSE (0)
 
-#define ABS(x) (((x) < 0) ? -(x) : (x))
-#define CLAMP(x, min, max) MAX (MIN (x, max), min)
+#define FLIP_NONE 0
+#define FLIP_H 2
 
 #ifndef QCOM_HARDWARE
 enum {
@@ -504,6 +500,7 @@ typedef enum {
     MM_CAMERA_PARAM_EXPOSURE_TIME,
     MM_CAMERA_PARM_EXTERNAL_DIS_ENABLE,
     MM_CAMERA_PARAM_ISO_AUTO_VALUE,
+    MM_CAMERA_PARM_LUX_IDX,
     MM_CAMERA_PARM_MAX
 } mm_camera_parm_type_t;
 
@@ -988,14 +985,6 @@ typedef struct {
   int num_fd;
 } fd_set_parm_t;
 
-typedef enum {
-  FACE_DETECT_OFF,
-  FACE_DETECT,
-  FACE_RECOGNIZE,
-  FACE_REGISTER,
-  CLEAR_ALBUM,
-}fd_mode_t;
-
 typedef struct {
   uint32_t frame_id;
   int16_t num_face_detected;
@@ -1156,12 +1145,6 @@ typedef enum camera_rotation_type {
   ROT_CLOCKWISE_180      = 6,
   ROT_CLOCKWISE_270      = 7,
 } camera_rotation_type;
-
-typedef enum {
-  FLIP_NONE        = 0,
-  FLIP_H           = 2,
-  FLIP_V           = 4
-} camera_flip_type;
 
 typedef struct video_rotation_param_ctrl_t {
   camera_rotation_type rotation; /* 0 degree = rot disable. */

@@ -224,7 +224,7 @@ extern int switch_mode( int nMode ) {
     //media server doesnt have permissions to update
     return 0;
 #endif
-#ifdef WITH_QCOM_FM
+#ifdef QCOM_FM_ENABLED
     i2cfd = open(FM_DEVICE_PATH, O_RDWR);
     if( i2cfd >= 0) {
         rc = switch_pins(i2cfd, nMode);

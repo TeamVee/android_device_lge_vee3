@@ -50,6 +50,7 @@ extern "C" {
 #include "QCameraStream.h"
 #include "QCamera_Intf.h"
 
+#include "hdr/include/morpho_noise_reduction_ext.h"
 //Error codes
 #define  NOT_FOUND -1
 #define MAX_ZOOM_RATIOS 62
@@ -76,13 +77,6 @@ struct preview_format_info_t {
    cam_format_t mm_cam_format;
    cam_pad_format_t padding;
    int num_planar;
-};
-
-enum {
-    CAMERA_SUPPORT_MODE_2D = 0x01, /* Camera Sensor supports 2D mode. */
-    CAMERA_SUPPORT_MODE_3D = 0x02, /* Camera Sensor supports 3D mode. */
-    CAMERA_SUPPORT_MODE_NONZSL = 0x04, /* Camera Sensor in NON-ZSL mode. */
-    CAMERA_SUPPORT_MODE_ZSL = 0x08 /* Camera Sensor supports ZSL mode. */
 };
 
 typedef enum {
@@ -830,6 +824,8 @@ private:
     camera_size_type* mVideoSizes;
     const camera_size_type * mPictureSizesPtr;
     HAL_camera_state_type_t mCameraState;
+    void *libdnr;
+    int (*LINK_morpho_DNR_ProcessFrame)(unsigned char* yuvImage, int width, int height, int y_level, int c_level);
 
      /* Temporary - can be removed after Honeycomb*/
 #ifdef USE_ION
