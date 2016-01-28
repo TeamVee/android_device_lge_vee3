@@ -80,3 +80,5 @@ PRODUCT_PROPERTY_OVERRIDES += af.resampler.quality="4"
 PRODUCT_PROPERTY_OVERRIDES += dalvik.vm.dex2oat-filter="balanced"
 PRODUCT_PROPERTY_OVERRIDES += dalvik.vm.dex2oat-flags="--no-watch-dog"
 PRODUCT_PROPERTY_OVERRIDES += dalvik.vm.image-dex2oat-filter="speed"
+# Force Camera Portability API, since newer camera API isn't supported.
+PRODUCT_PROPERTY_OVERRIDES += camera2.portability.force_api="1"
