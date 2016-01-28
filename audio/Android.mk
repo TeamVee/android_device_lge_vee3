@@ -6,10 +6,6 @@
 LOCAL_PATH := $(call my-dir)
 
 common_cflags := -D_POSIX_SOURCE
-ifneq ($(strip $(QCOM_ANC_HEADSET_ENABLED)),false)
-    common_cflags += -DQCOM_ANC_HEADSET_ENABLED
-endif
-
 ifeq ($(strip $(AUDIO_FEATURE_ENABLED_FM)),true)
     common_cflags += -DQCOM_FM_ENABLED
 endif
