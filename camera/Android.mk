@@ -43,11 +43,12 @@ endif
 LOCAL_C_INCLUDES += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include
 LOCAL_ADDITIONAL_DEPENDENCIES := $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
 LOCAL_C_INCLUDES += \
-     hardware/qcom/display-$(TARGET_QCOM_DISPLAY_VARIANT)/libgralloc \
-     hardware/qcom/media-$(TARGET_QCOM_MEDIA_VARIANT)/libstagefrighthw \
-     hardware/qcom/media-$(TARGET_QCOM_MEDIA_VARIANT)/mm-core/inc \
+     $(call project-path-for,qcom-display)/libgralloc \
+     $(call project-path-for,qcom-media)/libstagefrighthw \
+     $(call project-path-for,qcom-media)/mm-core/inc \
      frameworks/base/services/camera/libcameraservice \
      frameworks/native/include/media/hardware \
+     system/media/camera/include \
      $(LOCAL_PATH)/mm-camera-interface
 
 
@@ -61,7 +62,7 @@ LOCAL_SHARED_LIBRARIES := \
     libbinder \
     libmmcamera_interface2
 
-LOCAL_CFLAGS += -include bionic/libc/kernel/common/linux/socket.h
+LOCAL_CFLAGS += -include bionic/libc/include/sys/socket.h
 
 ifeq ($(DLOPEN_LIBMMCAMERA),1)
     LOCAL_SHARED_LIBRARIES += libdl
