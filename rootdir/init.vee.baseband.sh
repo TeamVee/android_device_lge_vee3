@@ -33,51 +33,79 @@ PATH=/sbin:/system/sbin:/system/bin:/system/xbin
 export PATH
 
 # Set baseband based on modem
-basebandcheck=`getprop gsm.version.baseband | grep -o -e "V10" -e "V20"`
-case "$basebandcheck" in
-	"") setprop gsm.version.baseband `strings /dev/block/mmcblk0p12 | grep -e "-V10.-" -e "-V20.-" | head -1` ;;
+case `getprop gsm.version.baseband | grep -o -e "V10" -e "V20"` in
+	"") setprop gsm.version.baseband `strings /dev/block/mmcblk0p12 | grep -e "-V10.-" -e "-V20.-" | head -1`
 esac
 
 deviceset=`getprop gsm.version.baseband | grep -o -e "E410" -e "E411" -e "E415" -e "E420" -e "E425" -e "E430" -e "E431" -e "E435" | head -1`
 
-setprop ro.build.product "vee3"
-setprop ro.product.device $deviceset
+# ReMount /system to Read-Write
+mount -o rw,remount /system
 
-ssdevice() {
-setprop persist.radio.multisim.config "none"
-setprop persist.multisim.config "none"
-setprop ro.multi.rild "false"
-}
+case `cat /system/build.prop | grep # DEVICE SETTINGS` in
+	"") # Set essential device things
+	echo "# DEVICE SETTINGS" >> /system/build.prop
+	echo "ro.build.product=vee3" >> /system/build.prop
+	setprop ro.build.product "vee3"
+	echo "ro.product.device=$deviceset" >> /system/build.prop
+	setprop ro.product.device $deviceset
 
-dsdevice() {
-setprop persist.radio.multisim.config "dsds"
-setprop persist.multisim.config "dsds"
-setprop ro.multi.rild "true"
-}
+	ssdevice()
+	{
+	echo "persist.radio.multisim.config=none" >> /system/build.prop
+	setprop persist.radio.multisim.config "none"
+	echo "persist.multisim.config=none" >> /system/build.prop
+	setprop persist.multisim.config "none"
+	echo "ro.multi.rild=false" >> /system/build.prop
+	setprop ro.multi.rild "false"
+	}
 
-case "$deviceset" in
-	"E410") setprop ro.product.model "E410 (L1 II Single)"; ssdevice;;
-	"E411") setprop ro.product.model "E411 (L1 II Single)"; ssdevice;;
-	"E415") setprop ro.product.model "E415 (L1 II Dual)"; dsdevice;;
-	"E420") setprop ro.product.model "E420 (L1 II Dual)"; dsdevice;;
-	"E425") setprop ro.product.model "E425 (L3 II Single)"; ssdevice;;
-	"E430") setprop ro.product.model "E430 (L3 II Single)"; ssdevice;;
-	"E431") setprop ro.product.model "E431 (L3 II Single)"; ssdevice;;
-	"E435") setprop ro.product.model "E435 (L3 II Dual)"; dsdevice;;
+	dsdevice()
+	{
+	echo "persist.radio.multisim.config=dsds" >> /system/build.prop
+	setprop persist.radio.multisim.config "dsds"
+	echo "persist.multisim.config=dsds" >> /system/build.prop
+	setprop persist.multisim.config "dsds"
+	echo "ro.multi.rild=true" >> /system/build.prop
+	setprop ro.multi.rild "true"
+	}
+
+	case "$deviceset" in
+		"E410") echo "ro.product.model=E410 (L1 II Single)" >> /system/build.prop
+		setprop ro.product.model "E410 (L1 II Single)"
+		ssdevice;;
+		"E411") echo "ro.product.model=E411 (L1 II Single)" >> /system/build.prop
+		setprop ro.product.model "E411 (L1 II Single)"
+		ssdevice;;
+		"E415") echo "ro.product.model=E415 (L1 II Dual)" >> /system/build.prop
+		setprop ro.product.model "E415 (L1 II Dual)"
+		dsdevice;;
+		"E420") echo "ro.product.model=E420 (L1 II Dual)" >> /system/build.prop
+		setprop ro.product.model "E420 (L1 II Dual)"
+		dsdevice;;
+		"E425") echo "ro.product.model=E425 (L3 II Single)" >> /system/build.prop
+		setprop ro.product.model "E425 (L3 II Single)"
+		ssdevice;;
+		"E430") echo "ro.product.model=E430 (L3 II Single)" >> /system/build.prop
+		setprop ro.product.model "E430 (L3 II Single)"
+		ssdevice;;
+		"E431") echo "ro.product.model=E431 (L3 II Single)" >> /system/build.prop
+		setprop ro.product.model "E431 (L3 II Single)"
+		ssdevice;;
+		"E435") echo "ro.product.model=E435 (L3 II Dual)" >> /system/build.prop
+		setprop ro.product.model "E435 (L3 II Dual)"
+		dsdevice;;
+	esac
 esac
 
-# Fix KL of E435 based on baseband
 case "$deviceset" in
-	"E435")
-	# ReMount /system to Read-Write
-	mount -o rw,remount /system
-	# Change KeyLayouts
-	busybox sed -i '/key 139   MENU              VIRTUAL/c\key 139   HOME              VIRTUAL' system/usr/keylayout/touch_mcs8000.kl
-	busybox sed -i '/key 172   HOME              VIRTUAL/c\key 172   MENU              VIRTUAL' system/usr/keylayout/touch_mcs8000.kl
-	# ReMount /system to Read-Only
-	mount -o ro,remount /system
-	;;
+	"E435") # Fix KL of E435 based on baseband
+	sed -i '/key 139   MENU              VIRTUAL/c\key 139   HOME              VIRTUAL' system/usr/keylayout/touch_mcs8000.kl
+	sed -i '/key 172   HOME              VIRTUAL/c\key 172   MENU              VIRTUAL' system/usr/keylayout/touch_mcs8000.kl
 esac
+
+# ReMount /system to Read-Only
+mount -o ro,remount /system
 
 # Set essential configs
 echo `getprop ro.serialno` > /sys/class/android_usb/android0/iSerial
