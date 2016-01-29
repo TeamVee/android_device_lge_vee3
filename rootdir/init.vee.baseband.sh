@@ -38,8 +38,35 @@ case "$basebandcheck" in
 	"") setprop gsm.version.baseband `strings /dev/block/mmcblk0p12 | grep -e "-V10.-" -e "-V20.-" | head -1` ;;
 esac
 
+deviceset=`getprop gsm.version.baseband | grep -o -e "E410" -e "E411" -e "E415" -e "E420" -e "E425" -e "E430" -e "E431" -e "E435" | head -1`
+
+setprop ro.build.product "vee3"
+setprop ro.product.device $deviceset
+
+ssdevice() {
+setprop persist.radio.multisim.config "none"
+setprop persist.multisim.config "none"
+setprop ro.multi.rild "false"
+}
+
+dsdevice() {
+setprop persist.radio.multisim.config "dsds"
+setprop persist.multisim.config "dsds"
+setprop ro.multi.rild "true"
+}
+
+case "$deviceset" in
+	"E410") setprop ro.product.model "E410 (L1 II Single)"; ssdevice;;
+	"E411") setprop ro.product.model "E411 (L1 II Single)"; ssdevice;;
+	"E415") setprop ro.product.model "E415 (L1 II Dual)"; dsdevice;;
+	"E420") setprop ro.product.model "E420 (L1 II Dual)"; dsdevice;;
+	"E425") setprop ro.product.model "E425 (L3 II Single)"; ssdevice;;
+	"E430") setprop ro.product.model "E430 (L3 II Single)"; ssdevice;;
+	"E431") setprop ro.product.model "E431 (L3 II Single)"; ssdevice;;
+	"E435") setprop ro.product.model "E435 (L3 II Dual)"; dsdevice;;
+esac
+
 # Fix KL of E435 based on baseband
-deviceset=`getprop gsm.version.baseband | grep -o -e "E435" | head -1`
 case "$deviceset" in
 	"E435")
 	# ReMount /system to Read-Write
@@ -51,4 +78,3 @@ case "$deviceset" in
 	mount -o ro,remount /system
 	;;
 esac
-
