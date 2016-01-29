@@ -31,12 +31,3 @@
 if [ `getprop persist.radio.multisim.config` -eq dsds ]; then
 	start ril-daemon1
 fi
-
-# Set essential configs
-echo `getprop ro.serialno` > /sys/class/android_usb/android0/iSerial
-echo `getprop ro.product.manufacturer` > /sys/class/android_usb/android0/iManufacturer
-echo `getprop ro.product.manufacturer` > /sys/class/android_usb/android0/f_rndis/manufacturer
-echo `getprop ro.product.model` > /sys/class/android_usb/android0/iProduct
-
-setprop ro.build.description "`getprop ro.build.product`-`getprop ro.build.type` `getprop ro.build.version.release` `getprop ro.build.id` `getprop ro.build.version.incremental` `getprop ro.build.tags`"
-setprop ro.build.fingerprint "`getprop ro.product.manufacturer`/`getprop ro.build.product`/`getprop ro.build.product`:`getprop ro.build.version.release`/`getprop ro.build.id`:`getprop ro.build.type`/`getprop ro.build.tags`"
