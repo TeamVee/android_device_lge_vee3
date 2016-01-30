@@ -1,7 +1,7 @@
-From 82e8962277ed64a00f49cffc35181f6032d41ddc Mon Sep 17 00:00:00 2001
+From 5a30c0925ca9e3c2650c29c0196258b50f79d815 Mon Sep 17 00:00:00 2001
 From: Kyle Harrison <khwebmail@gmail.com>
 Date: Thu, 16 Apr 2015 12:35:37 +0100
-Subject: [PATCH] msm7x27a support
+Subject: [PATCH] build: MSM7x27a Support
 
 Change-Id: I052b47237022f1a73293c5bbe591203be01809c2
 ---
@@ -10,10 +10,10 @@ Change-Id: I052b47237022f1a73293c5bbe591203be01809c2
  2 files changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/core/qcom_target.mk b/core/qcom_target.mk
-index 825ddbb..112ab41 100644
+index 83c1490..c00cc3a 100644
 --- a/core/qcom_target.mk
 +++ b/core/qcom_target.mk
-@@ -17,7 +17,7 @@ ifeq ($(BOARD_USES_QCOM_HARDWARE),true)
+@@ -20,7 +20,7 @@ ifeq ($(BOARD_USES_QCOM_HARDWARE),true)
      TARGET_ENABLE_QC_AV_ENHANCEMENTS := true
  
      # Enable DirectTrack for legacy targets
@@ -23,7 +23,7 @@ index 825ddbb..112ab41 100644
              qcom_flags += -DQCOM_DIRECTTRACK
          endif
 diff --git a/core/qcom_utils.mk b/core/qcom_utils.mk
-index d1dd262..050959d 100755
+index bb1202c..9e5d096 100755
 --- a/core/qcom_utils.mk
 +++ b/core/qcom_utils.mk
 @@ -1,5 +1,6 @@
@@ -34,5 +34,5 @@ index d1dd262..050959d 100755
  QCOM_BOARD_PLATFORMS += msm8226
  QCOM_BOARD_PLATFORMS += msm8610
 -- 
-2.3.5
+2.1.4
 
