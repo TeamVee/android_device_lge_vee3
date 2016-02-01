@@ -260,10 +260,10 @@ on post-fs-data
     mkdir /data/misc/rgb 0664 system system
     chown system system /data/misc/rgb/lp5521_current.dat
 
-service ril-daemon2 /system/bin/rild -c 2
+service ril-daemon1 /system/bin/rild -c 1
     class main
-    socket rild2 stream 660 root radio
-    socket rild-debug2 stream 660 radio system
+    socket rild1 stream 660 root radio
+    socket rild-debug1 stream 660 radio system
     user root
     disabled
     group radio cache inet misc audio sdcard_rw qcom_diag log diag
@@ -281,12 +281,12 @@ service rmt_storage /system/bin/rmt_storage
     disabled
 
 service qmuxd /system/bin/qmuxd
-    class main
+    class core
     user radio
     group radio audio bluetooth gps qcom_diag
 
 service netmgrd /system/bin/netmgrd
-    class main
+    class core
 
 service qcamerasvr /system/bin/mm-qcamera-daemon
     class late_start
@@ -294,10 +294,10 @@ service qcamerasvr /system/bin/mm-qcamera-daemon
     group camera system inet audio
 
 service bbset /system/bin/sh /init.vee.baseband.sh
-    class main
+    class late_start
     oneshot
 
-service qcom-c_main-sh /system/bin/sh /init.class_main.sh
+service vee-c_main-sh /system/bin/sh /init.vee.class_main.sh
     class main
     user root
     oneshot
@@ -378,7 +378,7 @@ service charger /charger
 service sensord /system/bin/sensord
     user system
     group compass misc input
-    class main
+    class core
     oneshot
 
 on property:wlan.driver.status=loading

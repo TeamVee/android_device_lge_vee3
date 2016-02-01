@@ -29,5 +29,5 @@
 
 # Start ril-daemon1 for dualsim
 if [ `getprop persist.radio.multisim.config` -eq dsds ]; then
-	start ril-daemon2
+	start ril-daemon1
 fi
