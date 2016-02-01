@@ -281,12 +281,12 @@ service rmt_storage /system/bin/rmt_storage
     disabled
 
 service qmuxd /system/bin/qmuxd
-    class core
+    class main
     user radio
     group radio audio bluetooth gps qcom_diag
 
 service netmgrd /system/bin/netmgrd
-    class core
+    class main
 
 service qcamerasvr /system/bin/mm-qcamera-daemon
     class late_start
@@ -294,10 +294,10 @@ service qcamerasvr /system/bin/mm-qcamera-daemon
     group camera system inet audio
 
 service bbset /system/bin/sh /init.vee.baseband.sh
-    class late_start
+    class main
     oneshot
 
-service vee-c_main-sh /system/bin/sh /init.vee.class_main.sh
+service qcom-c_main-sh /system/bin/sh /init.qcom.class_main.sh
     class main
     user root
     oneshot
@@ -378,7 +378,7 @@ service charger /charger
 service sensord /system/bin/sensord
     user system
     group compass misc input
-    class core
+    class main
     oneshot
 
 on property:wlan.driver.status=loading
