@@ -42,7 +42,7 @@ deviceset=`getprop gsm.version.baseband | grep -o -e "E410" -e "E411" -e "E415" 
 # ReMount /system to Read-Write
 mount -o rw,remount /system
 
-case `cat /system/build.prop | grep # DEVICE SETTINGS` in
+case `cat /system/build.prop | grep "# DEVICE SETTINGS"` in
 	"") # Set essential device things
 	echo "# DEVICE SETTINGS" >> /system/build.prop
 	echo "ro.build.product=vee3" >> /system/build.prop
