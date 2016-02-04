@@ -110,8 +110,6 @@ MALLOC_IMPL := dlmalloc
 ifeq ($(HOST_OS),linux)
 	WITH_DEXPREOPT := true
 endif
-WITH_DEXPREOPT_PIC := true
-DONT_DEXPREOPT_PREBUILTS := true
 
 # Include an expanded selection of fonts
 EXTENDED_FONT_FOOTPRINT := true
