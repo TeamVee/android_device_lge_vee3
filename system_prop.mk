@@ -80,5 +80,18 @@ PRODUCT_PROPERTY_OVERRIDES += af.resampler.quality="4"
 PRODUCT_PROPERTY_OVERRIDES += dalvik.vm.dex2oat-filter="balanced"
 PRODUCT_PROPERTY_OVERRIDES += dalvik.vm.dex2oat-flags="--no-watch-dog"
 PRODUCT_PROPERTY_OVERRIDES += dalvik.vm.image-dex2oat-filter="speed"
+PRODUCT_PROPERTY_OVERRIDES += dalvik.vm.dex2oat-swap="false"
+PRODUCT_PROPERTY_OVERRIDES += dalvik.vm.dex2oat-Xms="8m"
+PRODUCT_PROPERTY_OVERRIDES += dalvik.vm.dex2oat-Xmx="96m"
+PRODUCT_PROPERTY_OVERRIDES += dalvik.vm.image-dex2oat-Xms="48m"
+PRODUCT_PROPERTY_OVERRIDES += dalvik.vm.image-dex2oat-Xmx="48m"
+PRODUCT_PROPERTY_OVERRIDES += dalvik.vm.heapgrowthlimit="52m"
+PRODUCT_PROPERTY_OVERRIDES += dalvik.vm.heaptargetutilization="0.25"
+# For applications to determine if they should turn off specific memory-intensive
+# features that work poorly on low-memory devices.
+PRODUCT_PROPERTY_OVERRIDES += ro.config.low_ram="true"
+PRODUCT_PROPERTY_OVERRIDES += persist.sys.force_highendgfx="true"
+# Disable atlas services on low-ram targets
+PRODUCT_PROPERTY_OVERRIDES += config.disable_atlas="true"
 # Force Camera Portability API, since newer camera API isn't supported.
 PRODUCT_PROPERTY_OVERRIDES += camera2.portability.force_api="1"
