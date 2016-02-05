@@ -49,7 +49,7 @@ import java.util.ArrayList;
  *
  * {@hide}
  */
-public class LgeVee7RIL extends RIL implements CommandsInterface {
+public class LgeVeeCommmonRIL extends RIL implements CommandsInterface {
     protected HandlerThread mIccThread;
     protected IccHandler mIccHandler;
     protected String mAid;
@@ -66,12 +66,12 @@ public class LgeVee7RIL extends RIL implements CommandsInterface {
     private int mSetPreferredNetworkType = -1;
     private Message mPendingNetworkResponse;
 
-    public LgeVee7RIL(Context context, int preferredNetworkType,
+    public LgeVeeCommmonRIL(Context context, int preferredNetworkType,
             int cdmaSubscription, Integer instanceId) {
         this(context, preferredNetworkType, cdmaSubscription);
     }
 
-    public LgeVee7RIL(Context context, int networkMode, int cdmaSubscription) {
+    public LgeVeeCommmonRIL(Context context, int networkMode, int cdmaSubscription) {
         super(context, networkMode, cdmaSubscription);
         mSetPreferredNetworkType = -1;
         mQANElements = 5;
@@ -145,7 +145,7 @@ public class LgeVee7RIL extends RIL implements CommandsInterface {
         IccCardStatus status = new IccCardStatus();
         int cardState = p.readInt();
         /* Standard stack doesn't recognize REMOVED and SIM_DETECT_INSERTED,
-         * so convert them to ABSENT and PRESENT to trigger the hot-swapping 
+         * so convert them to ABSENT and PRESENT to trigger the hot-swapping
          * check */
         if (cardState > 2) {
             cardState -= 3;
