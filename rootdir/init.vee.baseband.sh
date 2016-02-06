@@ -39,11 +39,11 @@ esac
 
 deviceset=`getprop gsm.version.baseband | grep -o -e "E410" -e "E411" -e "E415" -e "E420" -e "E425" -e "E430" -e "E431" -e "E435" | head -1`
 
-# ReMount /system to Read-Write
-mount -o rw,remount /system
-
 case `cat /system/build.prop | grep "# DEVICE SETTINGS"` in
-	"") # Set essential device things
+	"") # ReMount /system to Read-Write
+	mount -o rw,remount /system
+
+	# Set essential device things
 	echo "# DEVICE SETTINGS" >> /system/build.prop
 	echo "ro.build.product=vee3" >> /system/build.prop
 	setprop ro.build.product "vee3"
@@ -94,18 +94,16 @@ case `cat /system/build.prop | grep "# DEVICE SETTINGS"` in
 		ssdevice;;
 		"E435") echo "ro.product.model=E435 (L3 II Dual)" >> /system/build.prop
 		setprop ro.product.model "E435 (L3 II Dual)"
-		dsdevice;;
+		dsdevice
+		# Fix KL of E435 based on baseband
+		sed -i '/key 139   MENU              VIRTUAL/c\key 139   HOME              VIRTUAL' system/usr/keylayout/touch_mcs8000.kl
+		sed -i '/key 172   HOME              VIRTUAL/c\key 172   MENU              VIRTUAL' system/usr/keylayout/touch_mcs8000.kl;;
 	esac
+
+	# ReMount /system to Read-Only
+	mount -o ro,remount /system
 esac
 
-case "$deviceset" in
-	"E435") # Fix KL of E435 based on baseband
-	sed -i '/key 139   MENU              VIRTUAL/c\key 139   HOME              VIRTUAL' system/usr/keylayout/touch_mcs8000.kl
-	sed -i '/key 172   HOME              VIRTUAL/c\key 172   MENU              VIRTUAL' system/usr/keylayout/touch_mcs8000.kl
-esac
-
-# ReMount /system to Read-Only
-mount -o ro,remount /system
 
 # Set essential configs
 echo `getprop ro.serialno` > /sys/class/android_usb/android0/iSerial
