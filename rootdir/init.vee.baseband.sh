@@ -46,54 +46,38 @@ case `cat /system/build.prop | grep "# DEVICE SETTINGS"` in
 	# Set essential device things
 	echo "# DEVICE SETTINGS" >> /system/build.prop
 	echo "ro.build.product=vee3" >> /system/build.prop
-	setprop ro.build.product "vee3"
 	echo "ro.product.device=$deviceset" >> /system/build.prop
-	setprop ro.product.device $deviceset
 
 	ssdevice()
 	{
 	echo "persist.radio.multisim.config=none" >> /system/build.prop
-	setprop persist.radio.multisim.config "none"
 	echo "persist.multisim.config=none" >> /system/build.prop
-	setprop persist.multisim.config "none"
 	echo "ro.multi.rild=false" >> /system/build.prop
-	setprop ro.multi.rild "false"
 	}
 
 	dsdevice()
 	{
 	echo "persist.radio.multisim.config=dsds" >> /system/build.prop
-	setprop persist.radio.multisim.config "dsds"
 	echo "persist.multisim.config=dsds" >> /system/build.prop
-	setprop persist.multisim.config "dsds"
 	echo "ro.multi.rild=true" >> /system/build.prop
-	setprop ro.multi.rild "true"
 	}
 
 	case "$deviceset" in
 		"E410") echo "ro.product.model=E410 (L1 II Single)" >> /system/build.prop
-		setprop ro.product.model "E410 (L1 II Single)"
 		ssdevice;;
 		"E411") echo "ro.product.model=E411 (L1 II Single)" >> /system/build.prop
-		setprop ro.product.model "E411 (L1 II Single)"
 		ssdevice;;
 		"E415") echo "ro.product.model=E415 (L1 II Dual)" >> /system/build.prop
-		setprop ro.product.model "E415 (L1 II Dual)"
 		dsdevice;;
 		"E420") echo "ro.product.model=E420 (L1 II Dual)" >> /system/build.prop
-		setprop ro.product.model "E420 (L1 II Dual)"
 		dsdevice;;
 		"E425") echo "ro.product.model=E425 (L3 II Single)" >> /system/build.prop
-		setprop ro.product.model "E425 (L3 II Single)"
 		ssdevice;;
 		"E430") echo "ro.product.model=E430 (L3 II Single)" >> /system/build.prop
-		setprop ro.product.model "E430 (L3 II Single)"
 		ssdevice;;
 		"E431") echo "ro.product.model=E431 (L3 II Single)" >> /system/build.prop
-		setprop ro.product.model "E431 (L3 II Single)"
 		ssdevice;;
 		"E435") echo "ro.product.model=E435 (L3 II Dual)" >> /system/build.prop
-		setprop ro.product.model "E435 (L3 II Dual)"
 		dsdevice
 		# Fix KL of E435 based on baseband
 		sed -i '/key 139   MENU              VIRTUAL/c\key 139   HOME              VIRTUAL' system/usr/keylayout/touch_mcs8000.kl
