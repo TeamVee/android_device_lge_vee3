@@ -94,9 +94,6 @@ BOARD_HARDWARE_CLASS := device/lge/vee-common/cmhw
 # BT
 BOARD_HAVE_BLUETOOTH := true
 
-# RIL
-BOARD_RIL_CLASS := ../../../device/lge/vee-common/ril/
-
 # Light
 TARGET_PROVIDES_LIBLIGHT := true
 
