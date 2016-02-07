@@ -37,6 +37,55 @@ case `getprop gsm.version.baseband | grep -o -e "V10" -e "V20"` in
 	"") setprop gsm.version.baseband `strings /dev/block/mmcblk0p12 | grep -e "-V10.-" -e "-V20.-" | head -1` ;;
 esac
 
+deviceset=`getprop gsm.version.baseband | grep -o -e "E410" -e "E411" -e "E415" -e "E420" -e "E425" -e "E430" -e "E431" -e "E435" | head -1`
+
+case `cat /system/build.prop | grep "# DEVICE SETTINGS"` in
+	"") # ReMount /system to Read-Write
+	mount -o rw,remount /system
+
+	# Set essential device things
+	echo "# DEVICE SETTINGS" >> /system/build.prop
+	echo "ro.build.product=vee3" >> /system/build.prop
+	echo "ro.product.device=$deviceset" >> /system/build.prop
+
+	ssdevice()
+	{
+	echo "persist.radio.multisim.config=none" >> /system/build.prop
+	echo "persist.multisim.config=none" >> /system/build.prop
+	echo "ro.multi.rild=false" >> /system/build.prop
+	}
+
+	dsdevice()
+	{
+	echo "persist.radio.multisim.config=dsds" >> /system/build.prop
+	echo "persist.multisim.config=dsds" >> /system/build.prop
+	echo "ro.multi.rild=true" >> /system/build.prop
+	}
+
+	case "$deviceset" in
+		"E410") echo "ro.product.model=E410 (L1 II Single)" >> /system/build.prop
+		ssdevice;;
+		"E411") echo "ro.product.model=E411 (L1 II Single)" >> /system/build.prop
+		ssdevice;;
+		"E415") echo "ro.product.model=E415 (L1 II Dual)" >> /system/build.prop
+		dsdevice;;
+		"E420") echo "ro.product.model=E420 (L1 II Dual)" >> /system/build.prop
+		dsdevice;;
+		"E425") echo "ro.product.model=E425 (L3 II Single)" >> /system/build.prop
+		ssdevice;;
+		"E430") echo "ro.product.model=E430 (L3 II Single)" >> /system/build.prop
+		ssdevice;;
+		"E431") echo "ro.product.model=E431 (L3 II Single)" >> /system/build.prop
+		ssdevice;;
+		"E435") echo "ro.product.model=E435 (L3 II Dual)" >> /system/build.prop
+		dsdevice;;
+	esac
+
+	# ReMount /system to Read-Only
+	mount -o ro,remount /system
+esac
+
+
 # Set essential configs
 echo `getprop ro.serialno` > /sys/class/android_usb/android0/iSerial
 echo `getprop ro.product.manufacturer` > /sys/class/android_usb/android0/iManufacturer
