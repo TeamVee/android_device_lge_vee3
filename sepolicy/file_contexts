@@ -7,12 +7,12 @@
 /sys/module/lge_emmc_direct_access/parameters/lcd_k_cal u:object_r:kcal_sysfs:s0
 /sys/devices/platform/msm_fb.131073/mdp_kcal    u:object_r:kcal_sysfs:s0
 
-/system/bin/sensord                             u:object_r:sensors_exec:s0
+/system/bin/sensord                             u:object_r:sensord_exec:s0
 
 /data/misc/rgb(/.*)?                            u:object_r:led_deamon_data_file:s0
 /sys/devices/platform/i2c-gpio.6/i2c-6/6-0032/.* u:object_r:led_deamon_data_file:s0
 
-/sys/class/input/input2/.*                      u:object_r:sensors_data_file:s0
-/sys/class/input/input3/.*                      u:object_r:sensors_data_file:s0
-/sys/devices/platform/i2c-gpio.5/i2c-5/5-0039/.* u:object_r:sensors_data_file:s0
-/mpt/prox_calibration.dat                       u:object_r:sensors_data_file:s0
+/sys/class/input/input2/.*                      u:object_r:sensord_data_file:s0
+/sys/class/input/input3/.*                      u:object_r:sensord_data_file:s0
+/sys/devices/platform/i2c-gpio.5/i2c-5/5-0039/.* u:object_r:sensord_data_file:s0
+/mpt/prox_calibration.dat                       u:object_r:sensord_data_file:s0
