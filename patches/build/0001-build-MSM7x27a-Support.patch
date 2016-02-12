@@ -1,29 +1,29 @@
-From 5a30c0925ca9e3c2650c29c0196258b50f79d815 Mon Sep 17 00:00:00 2001
+From e4513ce5646765d4ab21d23cceb1a4d9d35fbf11 Mon Sep 17 00:00:00 2001
+From: Caio Oliveira <caiooliveirafarias0@gmail.com>
 From: Kyle Harrison <khwebmail@gmail.com>
 Date: Thu, 16 Apr 2015 12:35:37 +0100
-Subject: [PATCH] build: MSM7x27a Support
 
-Change-Id: I052b47237022f1a73293c5bbe591203be01809c2
+Change-Id: I3cbf29128e1199dd4558372d91064601877afe52
 ---
  core/qcom_target.mk | 2 +-
  core/qcom_utils.mk  | 1 +
  2 files changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/core/qcom_target.mk b/core/qcom_target.mk
-index 83c1490..c00cc3a 100644
+index 941005e..a909c0f 100644
 --- a/core/qcom_target.mk
 +++ b/core/qcom_target.mk
-@@ -20,7 +20,7 @@ ifeq ($(BOARD_USES_QCOM_HARDWARE),true)
-     TARGET_ENABLE_QC_AV_ENHANCEMENTS := true
+@@ -32,7 +32,7 @@ ifeq ($(BOARD_USES_QCOM_HARDWARE),true)
+     # Tell HALs that we're compiling an AOSP build with an in-line kernel
+     TARGET_COMPILE_WITH_MSM_KERNEL := true
  
-     # Enable DirectTrack for legacy targets
 -    ifneq ($(filter msm7x30 msm8660 msm8960,$(TARGET_BOARD_PLATFORM)),)
 +    ifneq ($(filter msm7x27a msm7x30 msm8660 msm8960,$(TARGET_BOARD_PLATFORM)),)
-         ifeq ($(BOARD_USES_LEGACY_ALSA_AUDIO),true)
-             qcom_flags += -DQCOM_DIRECTTRACK
-         endif
+         # Enable legacy graphics functions
+         qcom_flags += -DQCOM_BSP_LEGACY
+         # Enable legacy audio functions
 diff --git a/core/qcom_utils.mk b/core/qcom_utils.mk
-index bb1202c..9e5d096 100755
+index 5e8a4a2..128a786 100755
 --- a/core/qcom_utils.mk
 +++ b/core/qcom_utils.mk
 @@ -1,5 +1,6 @@
