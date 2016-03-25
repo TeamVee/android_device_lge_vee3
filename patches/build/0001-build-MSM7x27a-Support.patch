@@ -1,7 +1,7 @@
 From e4513ce5646765d4ab21d23cceb1a4d9d35fbf11 Mon Sep 17 00:00:00 2001
 From: Caio Oliveira <caiooliveirafarias0@gmail.com>
-From: Kyle Harrison <khwebmail@gmail.com>
 Date: Thu, 16 Apr 2015 12:35:37 +0100
+Subject: [PATCH] build: MSM7x27a Support
 
 Change-Id: I3cbf29128e1199dd4558372d91064601877afe52
 ---
