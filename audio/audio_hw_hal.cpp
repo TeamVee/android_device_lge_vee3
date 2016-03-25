@@ -438,7 +438,6 @@ static uint32_t adev_get_supported_devices(const struct audio_hw_device *dev)
 #endif
 #ifdef QCOM_FM_ENABLED
             AUDIO_DEVICE_OUT_FM |
-            AUDIO_DEVICE_OUT_FM_TX |
 #endif
             AUDIO_DEVICE_OUT_DEFAULT |
             /* IN */
