@@ -64,7 +64,7 @@ static hw_module_t camera_common  = {
   version_major: 0,
   version_minor: 01,
   id: CAMERA_HARDWARE_MODULE_ID,
-  name: "HUAWEI msm7x27a Camera HAL",
+  name: "MSM7x27a QCamera HAL",
   author:"Qcom",
   methods: &camera_module_methods,
   dso: NULL,
