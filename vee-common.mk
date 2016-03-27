@@ -112,6 +112,7 @@ PRODUCT_PACKAGES += lights.msm7x27a
 
 # Camera Hal
 PRODUCT_PACKAGES += camera.msm7x27a
+PRODUCT_PACKAGES += Snap
 
 # WiFi
 PRODUCT_PACKAGES += libwpa_client
