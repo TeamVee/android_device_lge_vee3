@@ -81,7 +81,7 @@ PRODUCT_PACKAGES += charger
 PRODUCT_PACKAGES += charger_res_images
 
 # Gps
-#PRODUCT_PACKAGES += gps.msm7x27a
+PRODUCT_PACKAGES += gps.msm7x27a
 
 # Power Hal
 PRODUCT_PACKAGES += power.msm7x27a
