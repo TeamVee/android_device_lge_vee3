@@ -18,10 +18,6 @@ ifneq ($(strip $(QCOM_OUTPUT_FLAGS_ENABLED)),false)
     common_cflags += -DQCOM_OUTPUT_FLAGS_ENABLED
 endif
 
-ifneq ($(strip $(QCOM_TUNNEL_LPA_ENABLED)),false)
-    common_cflags += -DQCOM_TUNNEL_LPA_ENABLED
-endif
-
 ifneq ($(strip $(BOARD_QCOM_VOIP_ENABLED)),false)
   common_cflags += -DQCOM_VOIP_ENABLED
 endif

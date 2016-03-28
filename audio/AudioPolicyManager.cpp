@@ -89,13 +89,13 @@ void AudioPolicyManager::releaseOutput(audio_io_handle_t output)
 
     AudioOutputDescriptor *desc = mOutputs.valueAt(index);
     if (desc->mFlags & AudioSystem::OUTPUT_FLAG_DIRECT) {
-        if ((desc->mDirectOpenCount <= 0) && !(desc->mFlags & AUDIO_OUTPUT_FLAG_LPA || desc->mFlags & AUDIO_OUTPUT_FLAG_TUNNEL ||
+        if ((desc->mDirectOpenCount <= 0) && !(desc->mFlags & AUDIO_OUTPUT_FLAG_TUNNEL ||
                 desc->mFlags & AUDIO_OUTPUT_FLAG_VOIP_RX)) {
             ALOGW("releaseOutput() invalid open count %d for output %d",
                                                               desc->mDirectOpenCount, output);
             return;
         }
-        if ((--desc->mDirectOpenCount == 0) && ((desc->mFlags & AUDIO_OUTPUT_FLAG_LPA || desc->mFlags & AUDIO_OUTPUT_FLAG_TUNNEL ||
+        if ((--desc->mDirectOpenCount == 0) && ((desc->mFlags & AUDIO_OUTPUT_FLAG_TUNNEL ||
                 desc->mFlags & AUDIO_OUTPUT_FLAG_VOIP_RX))) {
             ALOGV("releaseOutput() closing output");
             closeOutput(output);
@@ -162,12 +162,10 @@ uint32_t AudioPolicyManager::checkDeviceMuteStrategies(AudioOutputDescriptor *ou
                             }
                             //Change latency for tunnel/LPA player to make sure no noise on device switch
                             //Routing to  BTA2DP,  USB device ,  Proxy(WFD) will take time, increasing latency time
-                            if((desc->mFlags & AUDIO_OUTPUT_FLAG_LPA) || (desc->mFlags & AUDIO_OUTPUT_FLAG_TUNNEL)
-                                || (device & AUDIO_DEVICE_OUT_USB_DEVICE) || (device & AUDIO_DEVICE_OUT_BLUETOOTH_A2DP)
-                                || (device & AUDIO_DEVICE_OUT_PROXY) || IsFMEnabled)
-                            {
+                            if((desc->mFlags & AUDIO_OUTPUT_FLAG_TUNNEL)|| (device & AUDIO_DEVICE_OUT_USB_DEVICE)
+                                || (device & AUDIO_DEVICE_OUT_BLUETOOTH_A2DP) || (device & AUDIO_DEVICE_OUT_PROXY)
+                                || IsFMEnabled)
                                setStrategyMute((routing_strategy)i, false, curOutput,desc->latency()*4 ,device);
-                            }
                             else
                                setStrategyMute((routing_strategy)i, false, curOutput,desc->latency()*2 ,device);
                         }
@@ -1302,8 +1300,7 @@ status_t AudioPolicyManager::checkOutputsForDevice(audio_devices_t device,
             desc->mDevice = device;
             audio_io_handle_t output = 0;
 #ifdef QCOM_OUTPUT_FLAGS_ENABLED
-            if (!(desc->mFlags & AUDIO_OUTPUT_FLAG_LPA || desc->mFlags & AUDIO_OUTPUT_FLAG_TUNNEL ||
-                desc->mFlags & AUDIO_OUTPUT_FLAG_VOIP_RX)) {
+            if (!(desc->mFlags & AUDIO_OUTPUT_FLAG_TUNNEL || desc->mFlags & AUDIO_OUTPUT_FLAG_VOIP_RX)) {
 #endif
                 output =  mpClientInterface->openOutput(profile->mModule->mHandle,
                                                         &desc->mDevice,
@@ -2118,9 +2115,7 @@ AudioPolicyManagerBase::IOProfile *AudioPolicyManager::getProfileForDirectOutput
                                                                audio_output_flags_t flags)
 {
 #ifdef QCOM_OUTPUT_FLAGS_ENABLED
-    if( !((flags & AUDIO_OUTPUT_FLAG_LPA)   ||
-          (flags & AUDIO_OUTPUT_FLAG_TUNNEL)||
-          (flags & AUDIO_OUTPUT_FLAG_VOIP_RX)) )
+    if (!((flags & AUDIO_OUTPUT_FLAG_TUNNEL) || (flags & AUDIO_OUTPUT_FLAG_VOIP_RX)))
         flags = AUDIO_OUTPUT_FLAG_DIRECT;
 #endif
     for (size_t i = 0; i < mHwModules.size(); i++) {

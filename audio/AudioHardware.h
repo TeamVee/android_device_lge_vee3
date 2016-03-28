@@ -188,7 +188,6 @@ using android_audio_legacy::AudioHardwareInterface;
 class AudioHardware : public  AudioHardwareBase
 {
     class AudioStreamOutMSM72xx;
-    class AudioSessionOutLPA;
     class AudioStreamInMSM72xx;
 #ifdef QCOM_VOIP_ENABLED
     class AudioStreamOutDirect;
@@ -385,150 +384,6 @@ private:
 
 // ----------------------------------------------------------------------------
 
-class AudioSessionOutLPA : public AudioStreamOut
-{
-public:
-    AudioSessionOutLPA(AudioHardware* mHardware,
-                        uint32_t   devices,
-                        int        format,
-                        uint32_t   channels,
-                        uint32_t   samplingRate,
-                        int        type,
-                        status_t   *status);
-    virtual            ~AudioSessionOutLPA();
-
-    virtual uint32_t    sampleRate() const
-    {
-        return mSampleRate;
-    }
-
-    virtual size_t      bufferSize() const
-    {
-        return mBufferSize;
-    }
-
-    virtual uint32_t    channels() const
-    {
-        return mChannels;
-    }
-
-    virtual int         format() const
-    {
-        return mFormat;
-    }
-
-    virtual uint32_t    latency() const;
-
-    virtual ssize_t     write(const void *buffer, size_t bytes);
-
-    virtual status_t    start( );
-    virtual status_t    pause();
-    virtual status_t    flush();
-    virtual status_t    stop();
-
-    virtual status_t    dump(int fd, const Vector<String16>& args);
-
-    status_t            setVolume(float left, float right);
-
-    virtual status_t    standby();
-
-    virtual status_t    setParameters(const String8& keyValuePairs);
-
-    virtual String8     getParameters(const String8& keys);
-
-
-    // return the number of audio frames written by the audio dsp to DAC since
-    // the output has exited standby
-    virtual status_t    getRenderPosition(uint32_t *dspFrames);
-
-    virtual status_t    getPresentationPosition(uint64_t *frames, struct timespec *timestamp);
-
-    virtual status_t    getNextWriteTimestamp(int64_t *timestamp);
-    virtual status_t    setObserver(void *observer);
-    virtual status_t    getBufferInfo(buf_info **buf);
-    virtual status_t    isBufferAvailable(int *isAvail);
-
-	void* memBufferAlloc(int nSize, int32_t *ion_fd);
-
-private:
-    Mutex               mLock;
-    uint32_t            mFrameCount;
-    uint32_t            mSampleRate;
-    uint32_t            mChannels;
-    size_t              mBufferSize;
-    int                 mFormat;
-    uint32_t            mStreamVol;
-
-    bool                mPaused;
-    bool                mIsDriverStarted;
-    bool                mGenerateEOS;
-    bool                mSeeking;
-    bool                mReachedEOS;
-    bool                mSkipWrite;
-    bool                mEosEventReceived;
-    uint32_t    mDevices;
-    AudioHardware* mHardware;
-    AudioEventObserver *mObserver;
-
-    void                createEventThread();
-    void                bufferAlloc();
-    void                bufferDeAlloc();
-    bool                isReadyToPostEOS(int errPoll, void *fd);
-    status_t            drain();
-	status_t            openAudioSessionDevice();
-    // make sure the event thread also exited
-    void                requestAndWaitForEventThreadExit();
-    int32_t             writeToDriver(char *buffer, int bytes);
-    static void *       eventThreadWrapper(void *me);
-    void                eventThreadEntry();
-//??    status_t            pause_l();
-//??    status_t            resume_l();
-    void                reset();
-
-    //Structure to hold ion buffer information
-    class BuffersAllocated {
-    /* overload BuffersAllocated constructor to support both ion and pmem memory allocation */
-    public:
-        BuffersAllocated(void *buf1, void *buf2, int32_t nSize, int32_t fd) :
-        localBuf(buf1), memBuf(buf2), memBufsize(nSize), memFd(fd)
-        {}
-        BuffersAllocated(void *buf1, void *buf2, int32_t nSize, int32_t share_fd, struct ion_handle *handle) :
-        ion_handle(handle), localBuf(buf1), memBuf(buf2), memBufsize(nSize), memFd(share_fd)
-        {}
-        struct ion_handle *ion_handle;
-        void* localBuf;
-        void* memBuf;
-        int32_t memBufsize;
-        int32_t memFd;
-        uint32_t bytesToWrite;
-    };
-    List<BuffersAllocated> mEmptyQueue;
-    List<BuffersAllocated> mFilledQueue;
-    List<BuffersAllocated> mBufPool;
-
-    //Declare all the threads
-    pthread_t mEventThread;
-
-    //Declare the condition Variables and Mutex
-    Mutex mEmptyQueueMutex;
-    Mutex mFilledQueueMutex;
-
-    Condition mWriteCv;
-    Condition mEventCv;
-	pthread_mutex_t event_mutex;
-    bool mKillEventThread;
-    bool mEventThreadAlive;
-    int mInputBufferSize;
-    int mInputBufferCount;
-    int64_t timePlayed;
-    int64_t timeStarted;
-
-    //event fd to signal the EOS and Kill from the userspace
-    int efd;
-	int afd;
-	int ionfd;
-};
-
     class AudioStreamInMSM72xx : public AudioStreamIn {
     public:
         enum input_state {
@@ -639,7 +494,6 @@ private:
 #ifdef QCOM_VOIP_ENABLED
             AudioStreamOutDirect*  mDirectOutput;
 #endif
-            AudioSessionOutLPA* mOutputLPA;
             SortedVector <AudioStreamInMSM72xx*>   mInputs;
 #ifdef QCOM_VOIP_ENABLED
             SortedVector <AudioStreamInVoip*>   mVoipInputs;
