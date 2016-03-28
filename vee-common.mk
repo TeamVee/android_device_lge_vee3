@@ -121,4 +121,7 @@ PRODUCT_PACKAGES += dhcpcd.conf
 PRODUCT_PACKAGES += wpa_supplicant
 PRODUCT_PACKAGES += wpa_supplicant.conf
 
+# Stlport
+PRODUCT_PACKAGES +=  libstlport
+
 include device/lge/vee-common/system_prop.mk
