@@ -47,7 +47,8 @@ PRODUCT_PROPERTY_OVERRIDES += media.stagefright.enable-aac="true"
 PRODUCT_PROPERTY_OVERRIDES += media.stagefright.enable-qcp="true"
 # RIL
 PRODUCT_PROPERTY_OVERRIDES += ril.subscription.types="NV,RUIM"
-PRODUCT_PROPERTY_OVERRIDES += ro.telephony.ril.v3="qcomdsds,signalstrength"
+PRODUCT_PROPERTY_OVERRIDES += ro.telephony.ril_class="JSRQualcommRIL"
+PRODUCT_PROPERTY_OVERRIDES += ro.telephony.ril.v3="qcomdsds,skippinpukcount,simactivation"
 PRODUCT_PROPERTY_OVERRIDES += ro.telephony.call_ring.multiple="false"
 PRODUCT_PROPERTY_OVERRIDES += ro.telephony.call_ring="false"
 # GSM Preferred
