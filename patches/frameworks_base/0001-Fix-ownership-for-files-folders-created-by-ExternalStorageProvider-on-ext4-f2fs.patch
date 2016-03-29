@@ -1,0 +1,34 @@
+From 015241cc33e40843064307534eef4cc8b6c22f9a Mon Sep 17 00:00:00 2001
+From: Jani Lusikka <jani.lusikka@gmail.com>
+Date: Sun, 27 Mar 2016 22:39:10 +0300
+Subject: [PATCH] Fix ownership for files/folders created by
+ ExternalStorageProvider on ext4/f2fs
+
+By forcing ExternalStorageProvider to use the sdcard FUSE layer for access,
+ext4/f2fs sdcards will be treated with the correct media_rw:media_rw
+permissions instead of the current app permissions.
+
+Change-Id: I2cbb97727ebe5af88a879490732925406a165af5
+---
+ .../src/com/android/externalstorage/ExternalStorageProvider.java  | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/packages/ExternalStorageProvider/src/com/android/externalstorage/ExternalStorageProvider.java b/packages/ExternalStorageProvider/src/com/android/externalstorage/ExternalStorageProvider.java
+index 18335b6..46b73d8 100644
+--- a/packages/ExternalStorageProvider/src/com/android/externalstorage/ExternalStorageProvider.java
++++ b/packages/ExternalStorageProvider/src/com/android/externalstorage/ExternalStorageProvider.java
+@@ -169,6 +169,14 @@ private void updateVolumesLocked() {
+                     root.visiblePath = null;
+                 }
+                 root.path = volume.getInternalPathForUser(userId);
++
++                // Force all ext4/f2fs sdcard acccess through the sdcard FUSE layer to ensure the
++                // correct permissions for accessing files and directories.
++                if (volume.getType() == VolumeInfo.TYPE_PUBLIC && root.visiblePath != null
++                    && ("ext4".equals(volume.fsType) || "f2fs".equals(volume.fsType))) {
++                    root.path = root.visiblePath;
++                }
++
+                 root.docId = getDocIdForFile(root.path);
+ 
+             } catch (FileNotFoundException e) {
