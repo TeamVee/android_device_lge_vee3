@@ -82,9 +82,6 @@ TARGET_USES_ION := true
 TARGET_DISPLAY_USE_RETIRE_FENCE := true
 TARGET_NO_INITLOGO := true
 
-# Screenshot
-BOARD_USE_MHEAP_SCREENSHOT := true
-
 # Hardware
 BOARD_HARDWARE_CLASS := device/lge/vee-common/cmhw
 
