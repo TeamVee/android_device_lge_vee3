@@ -48,7 +48,7 @@ PRODUCT_PROPERTY_OVERRIDES += media.stagefright.enable-qcp="true"
 # RIL
 PRODUCT_PROPERTY_OVERRIDES += ril.subscription.types="NV,RUIM"
 PRODUCT_PROPERTY_OVERRIDES += ro.telephony.ril_class="JSRQualcommRIL"
-PRODUCT_PROPERTY_OVERRIDES += ro.telephony.ril.v3="qcomdsds,skippinpukcount,simactivation"
+PRODUCT_PROPERTY_OVERRIDES += ro.telephony.ril.config="qcomdsds,skippinpukcount,simactivation"
 PRODUCT_PROPERTY_OVERRIDES += ro.telephony.call_ring.multiple="false"
 PRODUCT_PROPERTY_OVERRIDES += ro.telephony.call_ring="false"
 # GSM Preferred
@@ -94,5 +94,3 @@ PRODUCT_PROPERTY_OVERRIDES += ro.config.low_ram="true"
 PRODUCT_PROPERTY_OVERRIDES += persist.sys.force_highendgfx="true"
 # Disable atlas services on low-ram targets
 PRODUCT_PROPERTY_OVERRIDES += config.disable_atlas="true"
-# Force Camera Portability API, since newer camera API isn't supported.
-PRODUCT_PROPERTY_OVERRIDES += camera2.portability.force_api="1"
