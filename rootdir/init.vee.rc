@@ -274,6 +274,7 @@ service qcamerasvr /system/bin/mm-qcamera-daemon
 
 service bbset /system/bin/sh /init.vee.baseband.sh
     class main
+    user root
     oneshot
 
 service qcom-c_main-sh /system/bin/sh /init.qcom.class_main.sh
