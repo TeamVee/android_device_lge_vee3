@@ -40,12 +40,12 @@ void vendor_load_properties() {
     char dversionbb[92];
     FILE *fp;
 
-    fp = popen("/system/xbin/printf $(/system/xbin/strings /dev/block/mmcblk0p12 | /system/bin/grep -e '-V10' -e '-V20' | /system/xbin/head -1)", "r");
+    fp = popen("/system/bin/strings /dev/block/mmcblk0p12 | /system/bin/egrep -e '-V10' -e '-V20' > /cache/tmp; /system/bin/printf $(cat /cache/tmp | /system/bin/head -n 1); rm -rf /cache/tmp", "r");
     fgets(gversionbb, sizeof(gversionbb), fp);
     pclose(fp);
     property_set("gsm.version.baseband", gversionbb);
 
-    fp = popen("/system/xbin/printf $(/system/bin/getprop gsm.version.baseband | /system/bin/grep -o -e 'E410' -e 'E411' -e 'E415' -e 'E420' -e 'E425' -e 'E430' -e 'E431' -e 'E435' | /system/xbin/head -1)", "r");
+    fp = popen("/system/bin/printf $(/system/bin/getprop gsm.version.baseband | /system/bin/egrep -o -e 'E410' -e 'E411' -e 'E415' -e 'E420' -e 'E425' -e 'E430' -e 'E431' -e 'E435')", "r");
     fgets(dversionbb, sizeof(dversionbb), fp);
     pclose(fp);
     property_set("ro.product.device", dversionbb);
