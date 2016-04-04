@@ -159,7 +159,7 @@ COMMON_GLOBAL_CFLAGS += -DRIL_VARIANT_LEGACY
 
 # Set Device in init based on baseband
 TARGET_INIT_VENDOR_LIB := libinit_vee-common
-TARGET_LIBINIT_DEFINES_FILE := device/lge/vee-common/init/init_vee-common.c
+TARGET_LIBINIT_DEFINES_FILE := device/lge/vee-common/init/init_vee-common.cpp
 
 # BT
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/lge/vee-common/bluetooth
