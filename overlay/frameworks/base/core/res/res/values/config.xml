@@ -21,12 +21,6 @@
      for different hardware and product builds. -->
 <resources>
 
-    <!-- Flag indicating whether the surface flinger has limited
-         alpha compositing functionality in hardware.  If set, the window
-         manager will disable alpha trasformation in animations where not
-         strictly needed. -->
-    <bool name="config_sf_limitedAlpha">true</bool>
-    
     <!-- The default iface on which to monitor data use -->
     <string name="config_datause_iface">rmnet0</string>
 
@@ -148,14 +142,11 @@
 
     <!-- Is the device capable of hot swapping an UICC Card -->
     <bool name="config_hotswapCapable">false</bool>
-    
-    <!-- Integer indicating wpa_supplicant scan interval in milliseconds -->
-    <integer translatable="false" name="config_wifi_supplicant_scan_interval">60000</integer>
-    
+
     <!-- The RadioAccessFamilies supported by the device.
      Empty is viewed as "all".  Only used on devices which
      don't support RIL_REQUEST_GET_RADIO_CAPABILITY
      format is UMTS|LTE|... -->
     <string translatable="false" name="config_radio_access_family">GPRS|EDGE|UMTS|HSDPA|HSUPA|HSPAP|GSM|WCDMA</string>
-    
+
 </resources>
