@@ -2,7 +2,5 @@
 
 import init.v1.usb.rc
 
-on early-init
-    setprop ro.product.device v1
-    setprop ro.product.model v1
-    setprop ro.product.manufacturer LGE
+service v1 /sbin/sh /init.recovery.v1.sh
+    oneshot

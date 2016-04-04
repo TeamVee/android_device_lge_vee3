@@ -4,6 +4,7 @@ LOCAL_PATH:= $(call my-dir)
 $(shell mkdir -p $(OUT)/recovery/root/etc)
 $(shell cp $(LOCAL_PATH)/recovery/twrp.fstab $(OUT)/recovery/root/etc/twrp.fstab)
 $(shell cp $(LOCAL_PATH)/$(TARGET_DEVICE)/init.recovery.$(TARGET_DEVICE).rc $(OUT)/recovery/root/init.recovery.$(TARGET_DEVICE).rc)
+$(shell cp $(LOCAL_PATH)/vee-common/init.recovery.vee-common.sh $(OUT)/recovery/root/init.recovery.$(TARGET_DEVICE).sh)
 
 # Device Rootdir files
 $(shell mkdir -p $(TARGET_ROOT_OUT))

@@ -2,7 +2,5 @@
 
 import init.vee3.usb.rc
 
-on early-init
-    setprop ro.product.device vee3
-    setprop ro.product.model vee3
-    setprop ro.product.manufacturer LGE
+service vee3 /sbin/sh /init.recovery.vee3.sh
+    oneshot
