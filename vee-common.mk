@@ -1,5 +1,5 @@
 # Copyright (C) 2015 The CyanogenMod Project
-# Copyright (C) 2015 The TeamVee Project
+# Copyright (C) 2016 The TeamVee Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -33,9 +33,6 @@ $(call inherit-product, vendor/lge/vee-common/vee-common-vendor.mk)
 DEVICE_PACKAGE_OVERLAYS += device/lge/vee-common/overlay
 
 $(call inherit-product, frameworks/native/build/phone-hdpi-512-dalvik-heap.mk)
-
-# Rootdir files
-PRODUCT_COPY_FILES += $(call find-copy-subdir-files,*,device/lge/vee-common/rootdir,root)
 
 # Config Files
 PRODUCT_COPY_FILES += $(call find-copy-subdir-files,*,device/lge/vee-common/configs,system)

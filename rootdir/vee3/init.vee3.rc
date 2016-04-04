@@ -1,5 +1,5 @@
 # Copyright (c) 2009-2012, Code Aurora Forum. All rights reserved.
-# Copyright (c) 2015, TeamVee. All rights reserved.
+# Copyright (c) 2016, TeamVee. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -25,7 +25,7 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
-import init.vee.usb.rc
+import init.vee3.usb.rc
 
 on early-init
     # Permission for /proc/cmdline
@@ -57,8 +57,8 @@ on init
     symlink /storage/sdcard1 /mnt/extSdCard
 
 on fs
-    mount_all fstab.vee
-    swapon_all fstab.vee
+    mount_all fstab.vee3
+    swapon_all fstab.vee3
 
 on boot
     chown bluetooth bluetooth /sys/devices/platform/msm_serial_hs.0/clock
@@ -260,13 +260,13 @@ on post-fs-data
     mkdir /data/misc/rgb 0664 system system
     chown system system /data/misc/rgb/lp5521_current.dat
 
-service ril-daemon2 /system/bin/rild -c 2
+service ril-daemon1 /system/bin/rild -c 1
     class main
-    socket rild2 stream 660 root radio
-    socket rild-debug2 stream 660 radio system
+    socket rild1 stream 660 root radio
+    socket rild-debug1 stream 660 radio system
     user root
     disabled
-    group radio cache inet misc audio sdcard_rw qcom_diag log diag
+    group radio cache inet misc audio sdcard_rw qcom_oncrpc qcom_diag log diag
 
 service fuse_sdcard /system/bin/sdcard -u 1023 -g 1023 -l /data/media /mnt/shell/emulated
     class late_start
@@ -293,11 +293,7 @@ service qcamerasvr /system/bin/mm-qcamera-daemon
     user camera
     group camera system inet audio
 
-service bbset /system/bin/sh /init.vee.baseband.sh
-    class main
-    oneshot
-
-service qcom-c_main-sh /system/bin/sh /init.qcom.class_main.sh
+service vee3ds /system/bin/sh /init.vee3ds.sh
     class main
     user root
     oneshot

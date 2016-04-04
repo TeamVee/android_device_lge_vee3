@@ -1,0 +1,8 @@
+# Copyright (c) 2016, TeamVee. All rights reserved.
+
+import init.vee3.usb.rc
+
+on early-init
+    setprop ro.product.device vee3
+    setprop ro.product.model vee3
+    setprop ro.product.manufacturer LGE
