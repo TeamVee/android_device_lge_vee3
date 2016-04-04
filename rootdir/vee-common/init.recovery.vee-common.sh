@@ -28,26 +28,23 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-setprop gsm.version.baseband $(strings /dev/block/mmcblk0p12 | grep -e "-V10" -e "-V20" | head -1)
-
-# Get device based on baseband
-deviceset=$(getprop gsm.version.baseband | grep -o -e "E410" -e "E411" -e "E415" -e "E420" -e "E425" -e "E430" -e "E431" -e "E435")
+/sbin/setprop gsm.version.baseband $(/sbin/strings /dev/block/mmcblk0p12 | /sbin/grep -e "-V10" -e "-V20" | /sbin/head -1)
 
 # Set Variant
-setprop ro.product.model ${deviceset}
-setprop ro.product.device ${deviceset}
-setprop ro.product.manufacturer "LGE"
+/sbin/setprop ro.product.model $(/sbin/getprop gsm.version.baseband | /sbin/grep -o -e "E410" -e "E411" -e "E415" -e "E420" -e "E425" -e "E430" -e "E431" -e "E435" | /sbin/head -1)
+/sbin/setprop ro.product.device $(/sbin/getprop ro.product.model)
+/sbin/setprop ro.product.manufacturer "LGE"
 
 # Set essential configs
-echo $(getprop ro.serialno) > /sys/class/android_usb/android0/iSerial
-echo $(getprop ro.product.manufacturer) > /sys/class/android_usb/android0/iManufacturer
-echo $(getprop ro.product.manufacturer) > /sys/class/android_usb/android0/f_rndis/manufacturer
-echo $(getprop ro.product.model) > /sys/class/android_usb/android0/iProduct
+/sbin/echo $(/sbin/getprop ro.serialno) > /sys/class/android_usb/android0/iSerial
+/sbin/echo $(/sbin/getprop ro.product.manufacturer) > /sys/class/android_usb/android0/iManufacturer
+/sbin/echo $(/sbin/getprop ro.product.manufacturer) > /sys/class/android_usb/android0/f_rndis/manufacturer
+/sbin/echo $(/sbin/getprop ro.product.model) > /sys/class/android_usb/android0/iProduct
 
 # Set secondary things
-setprop ro.build.description "$(getprop ro.build.product)-$(getprop ro.build.type) $(getprop ro.build.version.release) $(getprop ro.build.id) $(getprop ro.build.version.incremental) $(getprop ro.build.tags)"
-setprop ro.build.fingerprint "$(getprop ro.product.manufacturer)/$(getprop ro.build.product)/$(getprop ro.build.product):$(getprop ro.build.version.release)/$(getprop ro.build.id):$(getprop ro.build.type)/$(getprop ro.build.tags)"
+/sbin/setprop ro.build.description "$(/sbin/getprop ro.build.product)-$(/sbin/getprop ro.build.type) $(/sbin/getprop ro.build.version.release) $(/sbin/getprop ro.build.id) $(/sbin/getprop ro.build.version.incremental) $(/sbin/getprop ro.build.tags)"
+/sbin/setprop ro.build.fingerprint "$(/sbin/getprop ro.product.manufacturer)/$(/sbin/getprop ro.build.product)/$(/sbin/getprop ro.build.product):$(/sbin/getprop ro.build.version.release)/$(/sbin/getprop ro.build.id):$(/sbin/getprop ro.build.type)/$(/sbin/getprop ro.build.tags)"
 
 # Restart ADBD
-stop adbd
-start adbd
+/sbin/stop adbd
+/sbin/start adbd
