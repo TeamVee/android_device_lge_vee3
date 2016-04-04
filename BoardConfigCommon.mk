@@ -1,5 +1,5 @@
 # Copyright (C) 2015 The CyanogenMod Project
-# Copyright (C) 2015 The TeamVee Project
+# Copyright (C) 2016 The TeamVee Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -51,6 +51,17 @@ TARGET_KERNEL_SOURCE := kernel/lge/msm7x27a-common
 BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x01300000
 BOARD_KERNEL_BASE := 0x00200000
 BOARD_KERNEL_PAGESIZE := 4096
+
+# Device Kernel
+ifeq ($(TARGET_DEVICE),v1)
+TARGET_KERNEL_CONFIG := cyanogenmod_v1_defconfig
+BOARD_KERNEL_CMDLINE := androidboot.hardware=v1 androidboot.selinux=permissive
+endif
+ifeq ($(TARGET_DEVICE),vee3)
+TARGET_KERNEL_CONFIG := cyanogenmod_vee3_defconfig
+BOARD_KERNEL_CMDLINE := androidboot.hardware=vee3 androidboot.selinux=permissive
+endif
+
 
 # Partitions
 BOARD_BOOTIMAGE_PARTITION_SIZE := 12582912
@@ -146,6 +157,16 @@ TARGET_RIL_VARIANT := legacy
 COMMON_GLOBAL_CFLAGS += -DRIL_SUPPORTS_SEEK
 COMMON_GLOBAL_CFLAGS += -DRIL_VARIANT_LEGACY
 
+# Set Device in init based on baseband
+TARGET_INIT_VENDOR_LIB := libinit_vee-common
+TARGET_LIBINIT_DEFINES_FILE := device/lge/vee-common/init/init_vee-common.c
+
+# BT
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/lge/vee-common/bluetooth
+
+# FSTAB
+TARGET_RECOVERY_FSTAB := device/lge/vee-common/rootdir/fstab.vee-common
+
 # Recovery
 DEVICE_RESOLUTION := 240x240
 RECOVERY_GRAPHICS_USE_LINELENGTH := true
@@ -154,7 +175,6 @@ RECOVERY_FSTAB_VERSION := 2
 TARGET_RECOVERY_PIXEL_FORMAT := "RGB_565"
 TARGET_RECOVERY_FORCE_PIXEL_FORMAT := "RGB_565"
 TARGET_RECOVERY_QCOM_RTC_FIX := true
-#BOARD_USE_CUSTOM_RECOVERY_FONT := "<font_7x16.h>"
 BOARD_USES_MMCUTILS := true
 BOARD_HAS_NO_MISC_PARTITION := true
 BOARD_HAS_NO_SELECT_BUTTON := true

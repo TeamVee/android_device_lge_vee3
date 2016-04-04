@@ -1,0 +1,8 @@
+# Copyright (c) 2016, TeamVee. All rights reserved.
+
+import init.v1.usb.rc
+
+on early-init
+    setprop ro.product.device v1
+    setprop ro.product.model v1
+    setprop ro.product.manufacturer LGE
