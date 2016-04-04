@@ -164,7 +164,7 @@ TARGET_LIBINIT_DEFINES_FILE := device/lge/vee-common/init/init_vee-common.cpp
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/lge/vee-common/bluetooth
 
 # FSTAB
-TARGET_RECOVERY_FSTAB := device/lge/vee-common/rootdir/fstab.vee-common
+TARGET_RECOVERY_FSTAB := device/lge/vee-common/rootdir/vee-common/fstab.vee-common
 
 # Recovery
 DEVICE_RESOLUTION := 240x240
