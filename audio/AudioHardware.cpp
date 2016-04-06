@@ -1001,8 +1001,8 @@ status_t AudioHardware::doRouting(AudioStreamInMSM72xx *input, uint32_t outputDe
                 new_snd_device = SND_DEVICE_TTY_HCO;
             }
             if ((mTtyMode != TTY_OFF) && (mMode == AUDIO_MODE_IN_CALL) &&
-                       (outputDevices & AUDIO_DEVICE_OUT_SPEAKER))
-            else if (mTtyMode == TTY_HCO) {
+                       (outputDevices & AUDIO_DEVICE_OUT_SPEAKER)) {
+            } else if (mTtyMode == TTY_HCO) {
                 ALOGI("Routing audio to TTY HCO Mode with Speakerphone\n");
                 new_snd_device = SND_DEVICE_TTY_HCO;
             }
