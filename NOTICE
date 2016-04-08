@@ -1,9 +1,10 @@
 
    The common device setup and all necessary integration with Android for this
-   software to run on the QCOM MSM7x27a boards of LG Electronics Optimus are:
+   software to run on the
+   QCOM MSM7x27a boards of LG Electronics Optimus L1II/L3II are:
 
    Copyright (c) 2015, The CyanogenMod Project
-   Copyright (C) 2015, The TeamVee Project
+   Copyright (C) 2016, The TeamVee Project
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
