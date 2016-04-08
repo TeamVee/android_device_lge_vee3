@@ -23,6 +23,10 @@ $(call inherit-product, device/lge/vee3/full_vee3.mk)
 TARGET_SCREEN_HEIGHT := 320
 TARGET_SCREEN_WIDTH := 240
 
+# Adding custom line to copy BlackPlayer as system app
+PRODUCT_COPY_FILES +=  \
+    device/lge/vee3/prebuilt/app/BlackPlayer.apk:system/app/BlackPlayer/BlackPlayer.apk
+
 # Device identifier. This must come after all inclusions
 PRODUCT_NAME := cm_vee3
 PRODUCT_RELEASE_NAME := L3 II
