@@ -1,6 +1,0 @@
-# Copyright (c) 2016, TeamVee. All rights reserved.
-
-import init.vee3.usb.rc
-
-service vee3 /sbin/sh /init.recovery.vee3.sh
-    oneshot

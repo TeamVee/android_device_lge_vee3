@@ -17,7 +17,7 @@
 #ifndef _BDROID_BUILDCFG_H
 #define _BDROID_BUILDCFG_H
 
-#define BTM_DEF_LOCAL_NAME	"Project Vee-Common"
+#define BTM_DEF_LOCAL_NAME	"LG L3 II"
 #define BTA_DISABLE_DELAY	1000
 #define BLUETOOTH_QCOM_SW	TRUE
 

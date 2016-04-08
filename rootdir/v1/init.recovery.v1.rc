@@ -1,6 +1,0 @@
-# Copyright (c) 2016, TeamVee. All rights reserved.
-
-import init.v1.usb.rc
-
-service v1 /sbin/sh /init.recovery.v1.sh
-    oneshot

@@ -1,5 +1,5 @@
+#
 # Copyright (C) 2015 The CyanogenMod Project
-# Copyright (C) 2016 The TeamVee Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,8 +14,7 @@
 # limitations under the License.
 #
 
-LOCAL_PATH := $(call my-dir)
-
-ifeq ($(TARGET_DEVICE),vee3)
-	include $(call all-makefiles-under,$(LOCAL_PATH))
-endif
+add_lunch_combo cm_vee3-userdebug
+add_lunch_combo cm_vee3-eng
+add_lunch_combo full_vee3-userdebug
+add_lunch_combo full_vee3-eng

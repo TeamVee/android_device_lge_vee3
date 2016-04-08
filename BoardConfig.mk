@@ -12,10 +12,24 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
+
+# HardCode Device Local Path
+DEVICE_LOCAL_PATH:= device/lge/vee3
+
+# Delete the '#' if you are building to L1II or use 'export TARGET_KERNEL_V1_BUILD_DEVICE=true' before build
+#TARGET_KERNEL_V1_BUILD_DEVICE := true
 
 # inherit from the common proprietary version
 -include vendor/lge/msm7x27a-common/BoardConfigVendor.mk
 -include vendor/lge/vee-common/BoardConfigVendor.mk
+
+# inherit from the proprietary device version
+ifeq ($(TARGET_KERNEL_V1_BUILD_DEVICE),true)
+-include vendor/lge/v1/BoardConfigVendor.mk
+else
+-include vendor/lge/vee3/BoardConfigVendor.mk
+endif
 
 BOARD_VENDOR := lge
 
@@ -50,17 +64,14 @@ TARGET_KERNEL_SOURCE := kernel/lge/msm7x27a-common
 BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x01300000
 BOARD_KERNEL_BASE := 0x00200000
 BOARD_KERNEL_PAGESIZE := 4096
+BOARD_KERNEL_CMDLINE := androidboot.hardware=vee3 androidboot.selinux=permissive
 
 # Device Kernel
-ifeq ($(TARGET_DEVICE),v1)
+ifeq ($(TARGET_KERNEL_V1_BUILD_DEVICE),true)
 TARGET_KERNEL_CONFIG := cyanogenmod_v1_defconfig
-BOARD_KERNEL_CMDLINE := androidboot.hardware=v1 androidboot.selinux=permissive
-endif
-ifeq ($(TARGET_DEVICE),vee3)
+else
 TARGET_KERNEL_CONFIG := cyanogenmod_vee3_defconfig
-BOARD_KERNEL_CMDLINE := androidboot.hardware=vee3 androidboot.selinux=permissive
 endif
-
 
 # Partitions
 BOARD_BOOTIMAGE_PARTITION_SIZE := 12582912
@@ -95,7 +106,7 @@ TARGET_DISPLAY_USE_RETIRE_FENCE := true
 TARGET_NO_INITLOGO := true
 
 # Hardware
-BOARD_HARDWARE_CLASS := device/lge/vee-common/cmhw
+BOARD_HARDWARE_CLASS := $(DEVICE_LOCAL_PATH)/cmhw
 
 # BT
 BOARD_HAVE_BLUETOOTH := true
@@ -122,11 +133,6 @@ EXTENDED_FONT_FOOTPRINT := true
 
 # Charger
 BOARD_CHARGER_SHOW_PERCENTAGE := true
-
-# SEPolicy
-include device/qcom/sepolicy/sepolicy.mk
-
-BOARD_SEPOLICY_DIRS += device/lge/vee-common/sepolicy
 
 # Bootanimation
 TARGET_BOOTANIMATION_PRELOAD := true
@@ -156,15 +162,19 @@ TARGET_RIL_VARIANT := legacy
 COMMON_GLOBAL_CFLAGS += -DRIL_SUPPORTS_SEEK
 COMMON_GLOBAL_CFLAGS += -DRIL_VARIANT_LEGACY
 
+# Unified Device
+TARGET_UNIFIED_DEVICE := true
+TARGET_OTA_ASSERT_DEVICE := E410,E411,E415,E420,E425,E430,E431,E435,v1,vee3
+
 # Set Device in init based on baseband
-TARGET_INIT_VENDOR_LIB := libinit_vee-common
-TARGET_LIBINIT_DEFINES_FILE := device/lge/vee-common/init/init_vee-common.cpp
+TARGET_INIT_VENDOR_LIB := libinit_vee3
+TARGET_LIBINIT_DEFINES_FILE := $(DEVICE_LOCAL_PATH)/init/init_vee3.cpp
 
 # BT
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/lge/vee-common/bluetooth
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(DEVICE_LOCAL_PATH)/bluetooth
 
 # FSTAB
-TARGET_RECOVERY_FSTAB := device/lge/vee-common/rootdir/vee-common/fstab.vee-common
+TARGET_RECOVERY_FSTAB := $(DEVICE_LOCAL_PATH)/rootdir/root/fstab.vee3
 
 # Recovery
 DEVICE_RESOLUTION := 240x240
@@ -187,6 +197,11 @@ TW_EXTERNAL_STORAGE_MOUNT_POINT := "external_sd"
 TW_DEFAULT_EXTERNAL_STORAGE := true
 TW_FLASH_FROM_STORAGE := true
 TW_NO_CPU_TEMP := true
-TW_NO_SCREEN_TIMEOUT := true
 TW_BRIGHTNESS_PATH := /sys/class/leds/lcd-backlight/brightness
 TW_MAX_BRIGHTNESS := 225
+
+# Sepolicy
+include device/qcom/sepolicy/sepolicy.mk
+
+BOARD_SEPOLICY_DIRS += $(DEVICE_LOCAL_PATH)/sepolicy
+

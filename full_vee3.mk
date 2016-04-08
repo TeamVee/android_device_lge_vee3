@@ -1,5 +1,4 @@
-# Copyright (C) 2015 The CyanogenMod Project
-# Copyright (C) 2016 The TeamVee Project
+# Copyright 2015 The Android Open Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,8 +13,15 @@
 # limitations under the License.
 #
 
-LOCAL_PATH := $(call my-dir)
+# Inherit from those products. Most specific first.
+$(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
-ifeq ($(TARGET_DEVICE),vee3)
-	include $(call all-makefiles-under,$(LOCAL_PATH))
-endif
+# Inherit device configuration
+$(call inherit-product, device/lge/vee3/device.mk)
+
+# Device identifier. This must come after all inclusions
+PRODUCT_NAME := full_vee3
+PRODUCT_DEVICE := vee3
+PRODUCT_BRAND := LGE
+PRODUCT_MODEL := vee3
+PRODUCT_MANUFACTURER := LGE

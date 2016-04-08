@@ -14,8 +14,17 @@
 # limitations under the License.
 #
 
-LOCAL_PATH := $(call my-dir)
+# Inherit some common CM stuff.
+$(call inherit-product, vendor/cm/config/common_full_phone.mk)
 
-ifeq ($(TARGET_DEVICE),vee3)
-	include $(call all-makefiles-under,$(LOCAL_PATH))
-endif
+# Inherit device configuration
+$(call inherit-product, device/lge/vee3/full_vee3.mk)
+
+TARGET_SCREEN_HEIGHT := 320
+TARGET_SCREEN_WIDTH := 240
+
+# Device identifier. This must come after all inclusions
+PRODUCT_NAME := cm_vee3
+PRODUCT_RELEASE_NAME := L3 II
+
+PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0

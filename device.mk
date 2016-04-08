@@ -14,28 +14,56 @@
 # limitations under the License.
 #
 
-# This file includes all definitions that apply to all L1II/L3II LGE QCom MSM7x27a devices.
-#
-# Everything in this directory will become public
+# Delete the '#' if you are building to L1II or use 'export TARGET_KERNEL_V1_BUILD_DEVICE=true' before build
+#TARGET_KERNEL_V1_BUILD_DEVICE := true
 
-# Density
- PRODUCT_AAPT_CONFIG := normal
- PRODUCT_AAPT_PREF_CONFIG := ldpi
- 
-$(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
+# HardCode Device Local Path
+DEVICE_LOCAL_PATH:= device/lge/vee3
 
-$(call inherit-product, device/common/gps/gps_us_supl.mk)
-
-$(call inherit-product, vendor/lge/msm7x27a-common/msm7x27a-common-vendor.mk)
-
-$(call inherit-product, vendor/lge/vee-common/vee-common-vendor.mk)
-
-DEVICE_PACKAGE_OVERLAYS += device/lge/vee-common/overlay
+PRODUCT_AAPT_CONFIG := normal
+PRODUCT_AAPT_PREF_CONFIG := ldpi
 
 $(call inherit-product, frameworks/native/build/phone-hdpi-512-dalvik-heap.mk)
+$(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
+$(call inherit-product, device/common/gps/gps_us_supl.mk)
+
+# inherit from the proprietary version
+$(call inherit-product, vendor/lge/msm7x27a-common/msm7x27a-common-vendor.mk)
+$(call inherit-product, vendor/lge/vee-common/vee-common-vendor.mk)
+ifeq ($(TARGET_KERNEL_V1_BUILD_DEVICE),true)
+$(call inherit-product, vendor/lge/v1/v1-vendor.mk)
+else
+$(call inherit-product, vendor/lge/vee3/vee3-vendor.mk)
+endif
+
+DEVICE_PACKAGE_OVERLAYS += $(DEVICE_LOCAL_PATH)/overlay
+
+# Rootdir files
+PRODUCT_COPY_FILES += $(DEVICE_LOCAL_PATH)/rootdir/root/fstab.vee3:root/fstab.vee3
+PRODUCT_COPY_FILES += $(DEVICE_LOCAL_PATH)/rootdir/root/init.vee3.rc:root/init.vee3.rc
+PRODUCT_COPY_FILES += $(DEVICE_LOCAL_PATH)/rootdir/root/init.vee3ds.sh:root/init.vee3ds.sh
+PRODUCT_COPY_FILES += $(DEVICE_LOCAL_PATH)/rootdir/root/init.vee3.usb.rc:root/init.vee3.usb.rc
+PRODUCT_COPY_FILES += $(DEVICE_LOCAL_PATH)/rootdir/root/ueventd.vee3.rc:root/ueventd.vee3.rc
 
 # Config Files
-PRODUCT_COPY_FILES += $(call find-copy-subdir-files,*,device/lge/vee-common/configs,system)
+PRODUCT_COPY_FILES += $(DEVICE_LOCAL_PATH)/rootdir/system/usr/keylayout/7k_handset.kl:system/usr/keylayout/7k_handset.kl
+PRODUCT_COPY_FILES += $(DEVICE_LOCAL_PATH)/rootdir/system/usr/keylayout/7x27a_kp.kl:system/usr/keylayout/7x27a_kp.kl
+PRODUCT_COPY_FILES += $(DEVICE_LOCAL_PATH)/rootdir/system/usr/keylayout/mms100s_ts.kl:system/usr/keylayout/mms100s_ts.kl
+PRODUCT_COPY_FILES += $(DEVICE_LOCAL_PATH)/rootdir/system/usr/keylayout/touch_mcs8000.kl:system/usr/keylayout/touch_mcs8000.kl
+PRODUCT_COPY_FILES += $(DEVICE_LOCAL_PATH)/rootdir/system/usr/keylayout/v1_keypad.kl:system/usr/keylayout/v1_keypad.kl
+PRODUCT_COPY_FILES += $(DEVICE_LOCAL_PATH)/rootdir/system/usr/keylayout/vee3_keypad.kl:system/usr/keylayout/vee3_keypad.kl
+PRODUCT_COPY_FILES += $(DEVICE_LOCAL_PATH)/rootdir/system/etc/firmware/wlan/volans/WCN1314_cfg.dat:system/etc/firmware/wlan/volans/WCN1314_cfg.dat
+PRODUCT_COPY_FILES += $(DEVICE_LOCAL_PATH)/rootdir/system/etc/firmware/wlan/volans/WCN1314_qcom_cfg.ini:system/etc/firmware/wlan/volans/WCN1314_qcom_cfg.ini
+PRODUCT_COPY_FILES += $(DEVICE_LOCAL_PATH)/rootdir/system/etc/firmware/wlan/volans/WCN1314_qcom_fw.bin:system/etc/firmware/wlan/volans/WCN1314_qcom_fw.bin
+PRODUCT_COPY_FILES += $(DEVICE_LOCAL_PATH)/rootdir/system/etc/firmware/wlan/volans/WCN1314_qcom_wlan_nv.bin:system/etc/firmware/wlan/volans/WCN1314_qcom_wlan_nv.bin
+PRODUCT_COPY_FILES += $(DEVICE_LOCAL_PATH)/rootdir/system/etc/hostapd/hostapd.accept:system/etc/hostapd/hostapd.accept
+PRODUCT_COPY_FILES += $(DEVICE_LOCAL_PATH)/rootdir/system/etc/hostapd/hostapd.deny:system/etc/hostapd/hostapd.deny
+PRODUCT_COPY_FILES += $(DEVICE_LOCAL_PATH)/rootdir/system/etc/hostapd/hostapd_default.conf:system/etc/hostapd/hostapd_default.conf
+PRODUCT_COPY_FILES += $(DEVICE_LOCAL_PATH)/rootdir/system/etc/wifi/p2p_supplicant_overlay.conf:system/etc/wifi/p2p_supplicant_overlay.conf
+PRODUCT_COPY_FILES += $(DEVICE_LOCAL_PATH)/rootdir/system/etc/wifi/wpa_supplicant_overlay.conf:system/etc/wifi/wpa_supplicant_overlay.conf
+PRODUCT_COPY_FILES += $(DEVICE_LOCAL_PATH)/rootdir/system/etc/audio_policy.conf:system/etc/audio_policy.conf
+PRODUCT_COPY_FILES += $(DEVICE_LOCAL_PATH)/rootdir/system/etc/media_codecs.xml:system/etc/media_codecs.xml
+PRODUCT_COPY_FILES += $(DEVICE_LOCAL_PATH)/rootdir/system/etc/media_profiles.xml:system/etc/media_profiles.xml
 
 # Special Google Media Codecs
 PRODUCT_COPY_FILES += frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:system/etc/media_codecs_google_audio.xml
@@ -122,4 +150,4 @@ PRODUCT_PACKAGES += libnetcmdiface
 # Stlport
 PRODUCT_PACKAGES +=  libstlport
 
-include device/lge/vee-common/system_prop.mk
+include $(DEVICE_LOCAL_PATH)/system_prop.mk
