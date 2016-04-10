@@ -18,8 +18,6 @@ ifeq ($(TARGET_BUILD_VARIANT),userdebug)
 ADDITIONAL_DEFAULT_PROPERTIES += ro.secure="false"
 ADDITIONAL_DEFAULT_PROPERTIES += ro.adb.secure="false"
 endif
-# USB
-PRODUCT_DEFAULT_PROPERTY_OVERRIDES += persist.sys.usb.config="mtp"
 # Lcd Density
 PRODUCT_PROPERTY_OVERRIDES += ro.sf.lcd_density="120"
 # Enforce Phone Mode view
