@@ -75,8 +75,6 @@ PRODUCT_PROPERTY_OVERRIDES += debug.gralloc.map_fb_memory="1"
 PRODUCT_PROPERTY_OVERRIDES += debug.hwc.fakevsync="1"
 # Audio
 PRODUCT_PROPERTY_OVERRIDES += audio.offload.disable="1"
-# Resampler quality
-PRODUCT_PROPERTY_OVERRIDES += af.resampler.quality="4"
 # ART
 PRODUCT_PROPERTY_OVERRIDES += dalvik.vm.dex2oat-filter="balanced"
 PRODUCT_PROPERTY_OVERRIDES += dalvik.vm.dex2oat-flags="--no-watch-dog"
