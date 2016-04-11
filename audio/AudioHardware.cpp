@@ -1056,16 +1056,6 @@ status_t AudioHardware::doRouting(AudioStreamInMSM72xx *input, uint32_t outputDe
             new_snd_device = SND_DEVICE_HANDSET;
         }
     }
-
-    if (mDualMicEnabled && (mMode == AUDIO_MODE_IN_CALL || mMode == AUDIO_MODE_IN_COMMUNICATION)) {
-        if (new_snd_device == SND_DEVICE_HANDSET) {
-            ALOGI("Routing audio to handset with DualMike enabled\n");
-            new_snd_device = SND_DEVICE_IN_S_SADC_OUT_HANDSET;
-        } else if (new_snd_device == SND_DEVICE_SPEAKER) {
-            ALOGI("Routing audio to speakerphone with DualMike enabled\n");
-            new_snd_device = SND_DEVICE_IN_S_SADC_OUT_SPEAKER_PHONE;
-        }
-    }
 #ifdef QCOM_FM_ENABLED
     if ((outputDevices  == 0) && (FmA2dpStatus == true))
        new_snd_device = SND_DEVICE_FM_DIGITAL_BT_A2DP_HEADSET;
