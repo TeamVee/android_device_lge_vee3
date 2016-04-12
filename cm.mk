@@ -23,9 +23,9 @@ $(call inherit-product, device/lge/vee3/full_vee3.mk)
 TARGET_SCREEN_HEIGHT := 320
 TARGET_SCREEN_WIDTH := 240
 
-# Adding custom line to copy BlackPlayer as system app
-PRODUCT_COPY_FILES +=  \
-    device/lge/vee3/prebuilt/app/BlackPlayer.apk:system/app/BlackPlayer/BlackPlayer.apk
+# Copy Prebuilt BlackPlayer and OpenCamera as system app
+PRODUCT_COPY_FILES +=  device/lge/vee3/prebuilt/app/com.kodarkooperativet.blackplayerfree-2.21.apk:system/app/BlackPlayer/BlackPlayer.apk
+PRODUCT_COPY_FILES +=  device/lge/vee3/prebuilt/app/net.sourceforge.opencamera-1.28.1.apk:system/app/OpenCamera/OpenCamera.apk
 
 # Device identifier. This must come after all inclusions
 PRODUCT_NAME := cm_vee3
