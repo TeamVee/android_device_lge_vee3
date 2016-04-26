@@ -40,6 +40,8 @@ void vendor_load_properties() {
     char dversionbb[92];
     FILE *fp;
 
+
+    /*
     fp = popen("/system/xbin/printf $(/system/xbin/strings /dev/block/mmcblk0p12 | /system/xbin/egrep -e '-V10' -e '-V20')", "r");
     fgets(gversionbb, sizeof(gversionbb), fp);
     pclose(fp);
@@ -56,6 +58,10 @@ void vendor_load_properties() {
         property_set("persist.multisim.config", "dsds");
         property_set("ro.multi.rild", "true");
     };
+    */
+
+    property_set("ro.product.device", vee3);
+    property_set("ro.product.model", vee3);
 
     ERROR("Found %s gsm baseband setting build properties for %s device\n", gversionbb, dversionbb);
 }
