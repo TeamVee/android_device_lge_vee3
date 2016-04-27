@@ -57,11 +57,14 @@ void vendor_load_properties() {
         property_set("ro.multi.rild", "true");
     };
 
-    if (strstr(gversionbb, "")) {
+    if (strstr(dversionbb, "")) {
         property_set("gsm.version.baseband", "V10");
         property_set("ro.product.device", "vee3");
         property_set("ro.product.model", "vee3");
     }
 
-    ERROR("Found %s gsm baseband setting build properties for %s device\n", gversionbb, dversionbb);
+    property_get("gsm.version.baseband", o_gversionbb);
+    property_get("ro.product.device", o_dversionbb);
+
+    ERROR("Found %s gsm baseband setting build properties for %s device\n", o_gversionbb, o_dversionbb);
 }

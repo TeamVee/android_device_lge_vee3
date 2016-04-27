@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Copyright (C) 2010 The Android Open Source Project
      Copyright (c) 2012, Code Aurora Forum. All rights reserved.
-     Copyright (c) 2015, TeamVee. All rights reserved.
+     Copyright (c) 2016, TeamVee. All rights reserved.
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@
                          AudioDecoderCap)>
 <!ELEMENT CamcorderProfiles (EncoderProfile+, ImageEncoding+, ImageDecoding, Camera)>
 <!ELEMENT EncoderProfile (Video, Audio)>
-<!ATTLIST EncoderProfile quality (high|low|timelapseqvga|timelapsevga|timelapsewvga) #REQUIRED>
+<!ATTLIST EncoderProfile quality (high|low) #REQUIRED>
 <!ATTLIST EncoderProfile fileFormat (mp4|3gp) #REQUIRED>
 <!ATTLIST EncoderProfile duration (30|60) #REQUIRED>
 <!ATTLIST EncoderProfile cameraId (0|1) #REQUIRED>
@@ -118,7 +118,7 @@
                    channels="2" />
         </EncoderProfile>
 
-        <EncoderProfile quality="qvga" fileFormat="mp4" duration="60">
+        <EncoderProfile quality="qvga" fileFormat="mp4" duration="30">
             <Video codec="h264"
                    bitRate="512000"
                    width="320"
@@ -257,7 +257,7 @@
                    channels="2" />
         </EncoderProfile>
 
-        <EncoderProfile quality="qvga" fileFormat="mp4" duration="60">
+        <EncoderProfile quality="qvga" fileFormat="mp4" duration="30">
             <Video codec="h264"
                    bitRate="512000"
                    width="320"
@@ -377,27 +377,27 @@
          or query the capabilities of the codec at all if it is disabled
     -->
     <VideoEncoderCap name="h264" enabled="true"
-        minBitRate="64000" maxBitRate="2000000"
-        minFrameWidth="320" maxFrameWidth="800"
-        minFrameHeight="240" maxFrameHeight="480"
-        minFrameRate="15" maxFrameRate="30" />
+        minBitRate="64000" maxBitRate="20000000"
+        minFrameWidth="176" maxFrameWidth="800"
+        minFrameHeight="144" maxFrameHeight="480"
+        minFrameRate="1" maxFrameRate="30" />
 
     <VideoEncoderCap name="h263" enabled="true"
-        minBitRate="64000" maxBitRate="2000000"
-        minFrameWidth="320" maxFrameWidth="800"
-        minFrameHeight="240" maxFrameHeight="480"
-        minFrameRate="15" maxFrameRate="30" />
+        minBitRate="192000" maxBitRate="2000000"
+        minFrameWidth="176" maxFrameWidth="800"
+        minFrameHeight="144" maxFrameHeight="480"
+        minFrameRate="1" maxFrameRate="30" />
 
     <VideoEncoderCap name="m4v" enabled="true"
-        minBitRate="64000" maxBitRate="2000000"
-        minFrameWidth="320" maxFrameWidth="800"
-        minFrameHeight="240" maxFrameHeight="480"
-        minFrameRate="15" maxFrameRate="30" />
+        minBitRate="192000" maxBitRate="14000000"
+        minFrameWidth="176" maxFrameWidth="800"
+        minFrameHeight="144" maxFrameHeight="480"
+        minFrameRate="1" maxFrameRate="30" />
 
     <AudioEncoderCap name="aac" enabled="true"
-        minBitRate="8000" maxBitRate="96000"
+        minBitRate="8000" maxBitRate="156000"
         minSampleRate="8000" maxSampleRate="48000"
-        minChannels="1" maxChannels="1" />
+        minChannels="1" maxChannels="2" />
 
     <AudioEncoderCap name="amrwb" enabled="true"
         minBitRate="6600" maxBitRate="23050"
