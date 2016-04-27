@@ -38,6 +38,8 @@
 void vendor_load_properties() {
     char gversionbb[92];
     char dversionbb[92];
+    char o_gversionbb[92];
+    char o_dversionbb[92];
     FILE *fp;
 
     fp = popen("/system/xbin/printf $(/system/xbin/strings /dev/block/mmcblk0p12 | /system/xbin/egrep -e '-V10' -e '-V20')", "r");
