@@ -22,7 +22,6 @@ DEVICE_LOCAL_PATH:= device/lge/vee3
 
 # inherit from the common proprietary version
 -include vendor/lge/msm7x27a-common/BoardConfigVendor.mk
--include vendor/lge/vee-common/BoardConfigVendor.mk
 
 # inherit from the proprietary device version
 ifeq ($(TARGET_KERNEL_V1_BUILD_DEVICE),true)
