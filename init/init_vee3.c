@@ -59,7 +59,7 @@ void vendor_load_properties() {
         property_set("ro.multi.rild", "true");
     };
 
-    if (strstr(dversionbb, "")) {
+    if (strlen(gversionbb) == 0) {
         property_set("gsm.version.baseband", "V10");
         property_set("ro.product.device", "vee3");
         property_set("ro.product.model", "vee3");
