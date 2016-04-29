@@ -36,13 +36,12 @@
 #include "util.h"
 
 void vendor_load_properties() {
-    //char gversionbb[92];
-    //char dversionbb[92];
+    char gversionbb[92];
+    char dversionbb[92];
     char o_gversionbb[92];
     char o_dversionbb[92];
-    //FILE *fp;
+    FILE *fp;
 
-    /*
     fp = popen("/system/xbin/printf $(/system/xbin/strings /dev/block/mmcblk0p12 | /system/bin/grep -e '-V10' -e '-V20')", "r");
     fgets(gversionbb, sizeof(gversionbb), fp);
     pclose(fp);
@@ -59,7 +58,6 @@ void vendor_load_properties() {
         property_set("persist.multisim.config", "dsds");
         property_set("ro.multi.rild", "true");
     };
-    */
 
     if (strlen(gversionbb) == 0) {
         property_set("gsm.version.baseband", "V10");
