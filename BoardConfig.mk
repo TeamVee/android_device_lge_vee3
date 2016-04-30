@@ -132,7 +132,7 @@ MALLOC_IMPL := dlmalloc
 
 # Enable dex-preoptimization to speed up first boot sequence
 WITH_DEXPREOPT := true
-WITH_DEXPREOPT_BOOT_IMG_ONLY := true
+DONT_DEXPREOPT_PREBUILTS := true
 
 # Include an expanded selection of fonts
 EXTENDED_FONT_FOOTPRINT := true
