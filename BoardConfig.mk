@@ -131,9 +131,8 @@ USE_MINIKIN := true
 MALLOC_IMPL := dlmalloc
 
 # Enable dex-preoptimization to speed up first boot sequence
-ifeq ($(HOST_OS),linux)
-	WITH_DEXPREOPT := true
-endif
+WITH_DEXPREOPT := true
+WITH_DEXPREOPT_BOOT_IMG_ONLY := true
 
 # Include an expanded selection of fonts
 EXTENDED_FONT_FOOTPRINT := true
