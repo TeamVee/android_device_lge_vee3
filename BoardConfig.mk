@@ -137,9 +137,6 @@ WITH_DEXPREOPT_BOOT_IMG_ONLY := true
 # Include an expanded selection of fonts
 EXTENDED_FONT_FOOTPRINT := true
 
-# Block based Over-The-Air
-BLOCK_BASED_OTA := false
-
 # Charger
 BOARD_CHARGER_SHOW_PERCENTAGE := true
 
