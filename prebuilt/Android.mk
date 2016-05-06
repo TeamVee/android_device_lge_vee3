@@ -3,6 +3,9 @@ LOCAL_PATH := $(call my-dir)
 # Remove CMUpdater
 LOCAL_OVERRIDES_PACKAGES := CMUpdater
 
+# Remove ScreenCast
+LOCAL_OVERRIDES_PACKAGES := Screencast
+
 # Template
 #
 #include $(CLEAR_VARS)
