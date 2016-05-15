@@ -89,29 +89,31 @@ PRODUCT_COPY_FILES += frameworks/native/data/etc/android.hardware.wifi.xml:syste
 PRODUCT_COPY_FILES += frameworks/native/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml
 PRODUCT_COPY_FILES += frameworks/native/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml
 
-# Display HALS
+# Display HAL
 PRODUCT_PACKAGES += copybit.msm7x27a
 PRODUCT_PACKAGES += gralloc.msm7x27a
 PRODUCT_PACKAGES += memtrack.msm7x27a
 PRODUCT_PACKAGES += libqdMetaData
 
-# Video
+# Media HAL
 PRODUCT_PACKAGES += libstagefrighthw
 PRODUCT_PACKAGES += libmm-omxcore
 PRODUCT_PACKAGES += libOmxCore
 PRODUCT_PACKAGES += libdashplayer
+PRODUCT_PACKAGES += qcmediaplayer
+PRODUCT_BOOT_JARS += qcmediaplayer
 
 # Off-mode Charging
 PRODUCT_PACKAGES += charger
 PRODUCT_PACKAGES += charger_res_images
 
-# Gps
+# GPS HAL
 PRODUCT_PACKAGES += gps.msm7x27a
 
 # Power Hal
 PRODUCT_PACKAGES += power.msm7x27a
 
-# BT
+# BT HAL
 PRODUCT_PACKAGES += libbt-vendor
 
 # EXT4
@@ -122,7 +124,7 @@ PRODUCT_PACKAGES += setup_fs
 # Usb
 PRODUCT_PACKAGES += com.android.future.usb.accessory
 
-# Audio
+# Audio HAL
 PRODUCT_PACKAGES += audio.a2dp.default
 PRODUCT_PACKAGES += audio.usb.default
 PRODUCT_PACKAGES += audio.r_submix.default
