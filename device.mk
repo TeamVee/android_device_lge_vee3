@@ -100,8 +100,6 @@ PRODUCT_PACKAGES += libstagefrighthw
 PRODUCT_PACKAGES += libmm-omxcore
 PRODUCT_PACKAGES += libOmxCore
 PRODUCT_PACKAGES += libdashplayer
-PRODUCT_PACKAGES += qcmediaplayer
-PRODUCT_BOOT_JARS += qcmediaplayer
 
 # Off-mode Charging
 PRODUCT_PACKAGES += charger
