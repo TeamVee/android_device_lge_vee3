@@ -138,9 +138,6 @@ PRODUCT_PACKAGES += lights.msm7x27a
 # Camera Hal
 PRODUCT_PACKAGES += camera.msm7x27a
 
-PRODUCT_DEX_PREOPT_DEFAULT_FLAGS := --compiler-filter=interpret-only
-$(call add-product-dex-preopt-module-config,services,--compiler-filter=space)
-
 # WiFi
 PRODUCT_PACKAGES += libwpa_client
 PRODUCT_PACKAGES += hostapd
