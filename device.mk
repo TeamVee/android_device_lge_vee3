@@ -148,6 +148,12 @@ PRODUCT_PACKAGES += libQWiFiSoftApCfg
 PRODUCT_PACKAGES += libnetcmdiface
 
 # Stlport
-PRODUCT_PACKAGES +=  libstlport
+PRODUCT_PACKAGES += libstlport
+
+# Gello
+PRODUCT_PACKAGES += Gello
+
+# Snap
+PRODUCT_PACKAGES += Snap
 
 include $(DEVICE_LOCAL_PATH)/system_prop.mk
