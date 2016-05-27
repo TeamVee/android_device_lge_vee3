@@ -63,6 +63,7 @@ PRODUCT_COPY_FILES += $(DEVICE_LOCAL_PATH)/rootdir/system/etc/wifi/wpa_supplican
 PRODUCT_COPY_FILES += $(DEVICE_LOCAL_PATH)/rootdir/system/etc/audio_policy.conf:system/etc/audio_policy.conf
 PRODUCT_COPY_FILES += $(DEVICE_LOCAL_PATH)/rootdir/system/etc/media_codecs.xml:system/etc/media_codecs.xml
 PRODUCT_COPY_FILES += $(DEVICE_LOCAL_PATH)/rootdir/system/etc/media_profiles.xml:system/etc/media_profiles.xml
+PRODUCT_COPY_FILES += $(DEVICE_LOCAL_PATH)/rootdir/system/etc/init.d/99googlelatinimefix:system/etc/init.d/99googlelatinimefix
 
 # Special Google Media Codecs
 PRODUCT_COPY_FILES += frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:system/etc/media_codecs_google_audio.xml
