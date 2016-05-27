@@ -153,7 +153,4 @@ PRODUCT_PACKAGES += libstlport
 # Gello
 PRODUCT_PACKAGES += Gello
 
-# Snap
-PRODUCT_PACKAGES += Snap
-
 include $(DEVICE_LOCAL_PATH)/system_prop.mk
